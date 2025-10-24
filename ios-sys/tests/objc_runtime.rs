@@ -48,7 +48,7 @@ fn test_sel_register_name() {
 #[test]
 fn test_objc_types_exist() {
     // Just verify the types are accessible
-    use ios_sys::objc::{Class, Method, Ivar, SEL};
+    use ios_sys::objc::{Class, Ivar, Method, SEL};
 
     // These should compile
     let _class_ptr: Class = std::ptr::null_mut();

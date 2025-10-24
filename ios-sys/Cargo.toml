@@ -1,7 +1,7 @@
 [package]
 name = "ios-sys"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 authors = ["Cole <cole@unwrap.rs>"]
 license = "MIT OR Apache-2.0"
 description = "Low-level FFI bindings to ALL iOS frameworks and APIs (197 frameworks)"

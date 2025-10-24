@@ -9,7 +9,7 @@ mod tbd;
 use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
-use tbd::{parse_tbd_file, TbdInfo};
+use tbd::{TbdInfo, parse_tbd_file};
 
 // ============================================================================
 // Bindings Generation
@@ -124,7 +124,8 @@ fn generate_public_framework_modules(frameworks: &[String], out_path: &Path) {
 
     for framework in frameworks {
         // Skip core frameworks that are always included in lib.rs
-        if framework == "Foundation" || framework == "CoreFoundation" || framework == "CoreGraphics" {
+        if framework == "Foundation" || framework == "CoreFoundation" || framework == "CoreGraphics"
+        {
             continue;
         }
 
