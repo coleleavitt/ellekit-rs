@@ -13,14 +13,11 @@ links = "ios-frameworks"
 [dependencies]
 
 [build-dependencies]
-# Optional: bindgen for generating bindings
-bindgen = { version = "0.69", optional = true }
+# bindgen for generating bindings from SDK headers
+bindgen = "0.69"
 
 [features]
-# Generate bindings at build time (requires clang and iOS SDK)
-generate-bindings = ["bindgen"]
-
-# Link against actual iOS frameworks (only works on macOS/iOS)
+# Link against actual iOS frameworks (only works on macOS/iOS or with cargo-zigbuild)
 runtime = []
 
 # Individual framework features

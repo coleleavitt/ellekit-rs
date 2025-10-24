@@ -1,22 +1,17 @@
-# Cargo configuration for iOS/macOS cross-compilation
-
-[build]
-# Default target for iOS development
-# target = "aarch64-apple-ios"
-
 [target.aarch64-apple-ios]
-# Linker for iOS
+# Use LLVM's ld64 linker instead of system ld (which doesn't understand Mach-O)
 linker = "clang"
-
-[target.aarch64-apple-darwin]
-# Linker for macOS ARM64
-linker = "clang"
-
-[target.x86_64-apple-darwin]
-# Linker for macOS x86_64
-linker = "clang"
-
-# Environment variables for bindgen
-[env]
-# Point bindgen to iOS SDK headers (adjust path as needed)
-# BINDGEN_EXTRA_CLANG_ARGS = "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
+rustflags = [
+    # Use ld64.lld as the actual linker
+    "-C", "link-arg=-fuse-ld=/usr/lib/llvm/20/bin/ld64.lld",
+    # Point to iOS SDK
+    "-C", "link-arg=-isysroot/home/cole/RustProjects/active/ellekit-rs/submodules/sdks/iPhoneOS16.5.sdk",
+    # Target iOS with platform version
+    "-C", "link-arg=-target",
+    "-C", "link-arg=arm64-apple-ios14.0",
+    # Platform version for ld64.lld
+    "-C", "link-arg=-Wl,-platform_version,ios,14.0,16.5",
+    # Architecture
+    "-C", "link-arg=-arch",
+    "-C", "link-arg=arm64",
+]

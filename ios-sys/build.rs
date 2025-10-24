@@ -3,6 +3,7 @@ use std::path::{Path, PathBuf};
 
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=wrapper.h");
 
     let _target_os = env::var("CARGO_CFG_TARGET_OS").unwrap_or_default();
     let _target_arch = env::var("CARGO_CFG_TARGET_ARCH").unwrap_or_default();
@@ -12,31 +13,27 @@ fn main() {
 
     if let Some(sdk) = &sdk_path {
         println!("cargo:warning=ios-sys: Using iOS SDK: {}", sdk.display());
-        setup_linking(sdk);
-    } else {
-        println!("cargo:warning=ios-sys: No iOS SDK found - building header-only");
-        println!("cargo:warning=To use Theos SDKs, clone them into submodules/sdks/");
-    }
 
-    // Only link frameworks if 'runtime' feature is enabled
-    #[cfg(feature = "runtime")]
-    {
-        if sdk_path.is_some() {
+        // Setup linker search paths (always)
+        setup_linking(sdk);
+
+        // Generate bindings from SDK headers
+        generate_bindings(sdk);
+
+        // Link frameworks if 'runtime' feature is enabled
+        #[cfg(feature = "runtime")]
+        {
             link_frameworks();
         }
-    }
 
-    #[cfg(not(feature = "runtime"))]
-    {
-        println!("cargo:warning=ios-sys: Header-only mode (enable 'runtime' feature to link)");
-    }
-
-    // Generate bindings if requested
-    #[cfg(feature = "generate-bindings")]
-    {
-        if let Some(sdk) = &sdk_path {
-            generate_bindings(sdk);
+        #[cfg(not(feature = "runtime"))]
+        {
+            println!("cargo:warning=ios-sys: Header-only mode (enable 'runtime' feature to link)");
         }
+    } else {
+        println!("cargo:warning=ios-sys: No iOS SDK found - cannot generate bindings!");
+        println!("cargo:warning=To use Theos SDKs, clone them into submodules/sdks/");
+        panic!("ios-sys requires iOS SDK in submodules/sdks/ to generate bindings");
     }
 }
 
@@ -90,146 +87,228 @@ fn setup_linking(sdk_path: &Path) {
         sdk_path.display()
     );
 
-    // Set sysroot for clang (if generating bindings)
+    // Set sysroot for clang (used by bindgen)
     println!("cargo:rustc-env=IPHONEOS_SDK_PATH={}", sdk_path.display());
 }
 
 /// Link iOS frameworks based on enabled features
-#[allow(dead_code)]
+#[cfg(feature = "runtime")]
 fn link_frameworks() {
-    // Core frameworks (always needed)
-    println!("cargo:rustc-link-lib=framework=Foundation");
-    println!("cargo:rustc-link-lib=framework=CoreFoundation");
+    let sdk_path = find_ios_sdk().expect("SDK required for runtime linking");
 
-    // Mach/system libraries
-    println!("cargo:rustc-link-lib=dylib=System");
-
-    // Optional frameworks based on features
-    #[cfg(feature = "uikit")]
+    // On macOS, use framework linking
+    #[cfg(target_os = "macos")]
     {
+        println!("cargo:rustc-link-lib=framework=Foundation");
+        println!("cargo:rustc-link-lib=framework=CoreFoundation");
+        println!("cargo:rustc-link-lib=dylib=System");
+
+        #[cfg(feature = "uikit")]
         println!("cargo:rustc-link-lib=framework=UIKit");
     }
 
-    #[cfg(feature = "coreanimation")]
+    // On other platforms (Linux cross-compiling), we need to explicitly link .tbd files
+    #[cfg(not(target_os = "macos"))]
     {
-        println!("cargo:rustc-link-lib=framework=CoreAnimation");
-    }
+        // libobjc is in /usr/lib/libobjc.tbd
+        let libobjc_path = sdk_path.join("usr/lib/libobjc.tbd");
+        if libobjc_path.exists() {
+            println!("cargo:rustc-link-arg={}", libobjc_path.display());
+        }
 
-    #[cfg(feature = "quartzcore")]
-    {
-        println!("cargo:rustc-link-lib=framework=QuartzCore");
-    }
+        // Framework TBDs
+        let frameworks_dir = sdk_path.join("System/Library/Frameworks");
 
-    #[cfg(feature = "security")]
-    {
-        println!("cargo:rustc-link-lib=framework=Security");
+        // Foundation
+        let foundation_tbd = frameworks_dir.join("Foundation.framework/Foundation.tbd");
+        if foundation_tbd.exists() {
+            println!("cargo:rustc-link-arg={}", foundation_tbd.display());
+        }
+
+        // CoreFoundation
+        let corefoundation_tbd = frameworks_dir.join("CoreFoundation.framework/CoreFoundation.tbd");
+        if corefoundation_tbd.exists() {
+            println!("cargo:rustc-link-arg={}", corefoundation_tbd.display());
+        }
+
+        // UIKit
+        #[cfg(feature = "uikit")]
+        {
+            let uikit_tbd = frameworks_dir.join("UIKit.framework/UIKit.tbd");
+            if uikit_tbd.exists() {
+                println!("cargo:rustc-link-arg={}", uikit_tbd.display());
+            }
+        }
+
+        // libSystem
+        let libsystem_tbd = sdk_path.join("usr/lib/libSystem.tbd");
+        if libsystem_tbd.exists() {
+            println!("cargo:rustc-link-arg={}", libsystem_tbd.display());
+        }
     }
 }
 
-/// Generate bindings using bindgen
-#[cfg(feature = "generate-bindings")]
+/// Generate bindings using bindgen from SDK headers
 fn generate_bindings(sdk_path: &Path) {
-
     let sysroot = format!("-isysroot{}", sdk_path.display());
-    let framework_path = format!("-F{}/System/Library/Frameworks", sdk_path.display());
     let include_path = format!("-I{}/usr/include", sdk_path.display());
 
-    // Generate Foundation bindings
-    generate_framework_bindings(
-        "Foundation",
-        sdk_path,
-        &[&sysroot, &framework_path, &include_path],
-    );
+    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+
+    // Common clang args
+    let common_args = vec![
+        sysroot.as_str(),
+        include_path.as_str(),
+        "-target",
+        "arm64-apple-ios",
+        "-fembed-bitcode",
+    ];
 
     // Generate Objective-C runtime bindings
-    generate_objc_bindings(sdk_path, &[&sysroot, &include_path]);
-
-    // Generate Mach bindings
-    generate_mach_bindings(sdk_path, &[&sysroot, &include_path]);
-}
-
-#[cfg(feature = "generate-bindings")]
-fn generate_framework_bindings(
-    framework: &str,
-    sdk_path: &Path,
-    clang_args: &[&str],
-) {
-    let header = format!("{}/{}.h", framework, framework);
-
-    let bindings = bindgen::Builder::default()
-        .header_contents(&header, &format!("#import <{}>", header))
-        .clang_args(clang_args)
-        .allowlist_type(&format!("{}.*", framework))
-        .allowlist_function(&format!("{}.*", framework))
-        .allowlist_var(&format!("{}.*", framework))
-        .use_core()
-        .ctypes_prefix("::core::ffi")
-        .generate()
-        .expect(&format!("Unable to generate {} bindings", framework));
-
-    let out_path = PathBuf::from("src");
-    bindings
-        .write_to_file(out_path.join(format!("{}.rs", framework.to_lowercase())))
-        .expect(&format!("Couldn't write {} bindings!", framework));
-}
-
-#[cfg(feature = "generate-bindings")]
-fn generate_objc_bindings(sdk_path: &Path, clang_args: &[&str]) {
-    let bindings = bindgen::Builder::default()
+    println!("cargo:warning=Generating Objective-C runtime bindings...");
+    let objc_bindings = bindgen::Builder::default()
         .header_contents(
-            "objc.h",
+            "objc_wrapper.h",
             r#"
 #include <objc/runtime.h>
 #include <objc/message.h>
-        "#,
+#include <objc/objc.h>
+            "#,
         )
-        .clang_args(clang_args)
+        .clang_args(&common_args)
         .allowlist_function("objc_.*")
         .allowlist_function("sel_.*")
         .allowlist_function("class_.*")
         .allowlist_function("method_.*")
         .allowlist_function("object_.*")
+        .allowlist_function("ivar_.*")
+        .allowlist_function("protocol_.*")
+        .allowlist_function("property_.*")
         .allowlist_type("objc_.*")
+        .allowlist_type("Protocol")
+        .allowlist_var("OBJC_.*")
         .use_core()
         .ctypes_prefix("::core::ffi")
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .expect("Unable to generate objc bindings");
 
-    let out_path = PathBuf::from("src");
-    bindings
+    objc_bindings
         .write_to_file(out_path.join("objc.rs"))
         .expect("Couldn't write objc bindings!");
-}
 
-#[cfg(feature = "generate-bindings")]
-fn generate_mach_bindings(sdk_path: &Path, clang_args: &[&str]) {
-    let bindings = bindgen::Builder::default()
+    // Generate Mach kernel bindings
+    println!("cargo:warning=Generating Mach kernel bindings...");
+    let mach_bindings = bindgen::Builder::default()
         .header_contents(
-            "mach.h",
+            "mach_wrapper.h",
             r#"
 #include <mach/mach.h>
 #include <mach/task.h>
 #include <mach/thread_act.h>
 #include <mach/vm_map.h>
-        "#,
+#include <mach/kern_return.h>
+#include <mach/port.h>
+            "#,
         )
-        .clang_args(clang_args)
+        .clang_args(&common_args)
         .allowlist_function("mach_.*")
         .allowlist_function("task_.*")
         .allowlist_function("thread_.*")
         .allowlist_function("vm_.*")
+        .allowlist_function("host_.*")
         .allowlist_type("mach_.*")
         .allowlist_type("task_.*")
         .allowlist_type("thread_.*")
         .allowlist_type("vm_.*")
         .allowlist_type("kern_return_t")
+        .allowlist_type("natural_t")
+        .allowlist_type("integer_t")
+        .allowlist_type("boolean_t")
+        .allowlist_var("KERN_.*")
+        .allowlist_var("VM_.*")
+        .allowlist_var("MACH_.*")
         .use_core()
         .ctypes_prefix("::core::ffi")
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .generate()
         .expect("Unable to generate mach bindings");
 
-    let out_path = PathBuf::from("src");
-    bindings
+    mach_bindings
         .write_to_file(out_path.join("mach.rs"))
         .expect("Couldn't write mach bindings!");
+
+    // Generate Foundation/CoreGraphics types
+    println!("cargo:warning=Generating Foundation type bindings...");
+    let foundation_bindings = bindgen::Builder::default()
+        .header_contents(
+            "foundation_wrapper.h",
+            r#"
+// Include objc runtime first
+#include <objc/objc.h>
+#include <objc/NSObjCRuntime.h>
+
+// Basic CoreGraphics types (defined manually to avoid CG framework dependencies)
+typedef double CGFloat;
+
+typedef struct CGPoint {
+    CGFloat x;
+    CGFloat y;
+} CGPoint;
+
+typedef struct CGSize {
+    CGFloat width;
+    CGFloat height;
+} CGSize;
+
+typedef struct CGRect {
+    CGPoint origin;
+    CGSize size;
+} CGRect;
+
+typedef struct NSRange {
+    NSUInteger location;
+    NSUInteger length;
+} NSRange;
+
+typedef struct UIEdgeInsets {
+    CGFloat top;
+    CGFloat left;
+    CGFloat bottom;
+    CGFloat right;
+} UIEdgeInsets;
+
+typedef struct UIOffset {
+    CGFloat horizontal;
+    CGFloat vertical;
+} UIOffset;
+
+// Common type aliases
+typedef NSInteger NSComparisonResult;
+typedef NSUInteger NSStringEncoding;
+            "#,
+        )
+        .clang_args(&common_args)
+        .allowlist_type("CGFloat")
+        .allowlist_type("CGPoint")
+        .allowlist_type("CGSize")
+        .allowlist_type("CGRect")
+        .allowlist_type("NSRange")
+        .allowlist_type("UIEdgeInsets")
+        .allowlist_type("UIOffset")
+        .allowlist_type("NSInteger")
+        .allowlist_type("NSUInteger")
+        .allowlist_type("NSComparisonResult")
+        .allowlist_type("NSStringEncoding")
+        .use_core()
+        .ctypes_prefix("::core::ffi")
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
+        .generate()
+        .expect("Unable to generate foundation bindings");
+
+    foundation_bindings
+        .write_to_file(out_path.join("foundation.rs"))
+        .expect("Couldn't write foundation bindings!");
+
+    println!("cargo:warning=Bindings generated successfully!");
 }
