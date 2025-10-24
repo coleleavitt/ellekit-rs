@@ -18,8 +18,6 @@ ellekit-sys = { path = "ellekit-sys", version = "0.1.0" }
 thiserror = { version = "2.0", default-features = false }
 
 [dev-dependencies]
-# For integration tests that need runtime constructor support
-ctor = "0.2"
 # For accessing libc symbols in tests
 libc = "0.2"
 

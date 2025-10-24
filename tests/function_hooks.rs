@@ -5,7 +5,7 @@
 //! require setting ELLEKIT_JAILBROKEN=1 environment variable.
 
 use ellekit::hook::FunctionHook;
-use std::ffi::{c_char, c_void, CStr};
+use std::ffi::{c_char, c_void};
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 // Import our common test helpers

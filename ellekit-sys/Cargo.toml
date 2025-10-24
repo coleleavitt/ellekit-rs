@@ -11,18 +11,15 @@ categories = ["external-ffi-bindings", "os::macos-apis"]
 links = "ellekit"
 
 [dependencies]
-
-[build-dependencies]
-bindgen = "0.69"
+# Use ios-sys for iOS system types (Mach, Objective-C, etc.)
+ios-sys = { path = "../ios-sys", version = "0.1.0", default-features = false }
 
 [features]
-# Generate bindings at build time (requires clang)
-# If disabled, uses pre-generated bindings
-generate-bindings = []
-
 # Link against the actual ElleKit library (only available on jailbroken iOS/macOS)
 # Without this feature, symbols are declared but not linked (header-only mode)
 runtime = []
+
+default = []
 
 [package.metadata.docs.rs]
 # Don't try to generate bindings on docs.rs

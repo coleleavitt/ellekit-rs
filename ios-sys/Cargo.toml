@@ -4,32 +4,3924 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Cole <cole@unwrap.rs>"]
 license = "MIT OR Apache-2.0"
-description = "Low-level FFI bindings to iOS frameworks and APIs"
+description = "Low-level FFI bindings to ALL iOS frameworks and APIs (197 frameworks)"
 repository = "https://github.com/yourusername/ellekit-rs"
 keywords = ["ios", "macos", "ffi", "objective-c", "cocoa"]
 categories = ["external-ffi-bindings", "os::macos-apis"]
 links = "ios-frameworks"
 
+[lib]
+# Can frameworks as both rlib (for Rust crates) and cdylib (for iOS tweaks)
+crate-type = ["rlib", "cdylib"]
+
 [dependencies]
 
 [build-dependencies]
 # bindgen for generating bindings from SDK headers
-bindgen = "0.69"
+bindgen = "0.72.1"
+# serde and serde_yaml for parsing TBD files
+serde = { version = "1.0", features = ["derive"] }
+serde_yaml = "0.9"
 
 [features]
 # Link against actual iOS frameworks (only works on macOS/iOS or with cargo-zigbuild)
 runtime = []
 
-# Individual framework features
-foundation = []
-uikit = []
+# Core frameworks (always generated, but can be feature-gated for convenience features)
+mach = []
+coregraphics = []
 corefoundation = []
-coreanimation = []
+
+# All 197 iOS Framework features (alphabetically sorted)
+accelerate = []
+accessibility = []
+accounts = []
+activitykit = []
+addressbook = []
+addressbookui = []
+adservices = []
+adsupport = []
+appclip = []
+appintents = []
+apptrackingtransparency = []
+arkit = []
+assetslibrary = []
+audiotoolbox = []
+audiounit = []
+authenticationservices = []
+automateddeviceenrollment = []
+automaticassessmentconfiguration = []
+avfaudio = []
+avfoundation = []
+avkit = []
+avrouting = []
+backgroundassets = []
+backgroundtasks = []
+businesschat = []
+callkit = []
+carkey = []
+carplay = []
+cfnetwork = []
+charts = []
+classkit = []
+clockkit = []
+cloudkit = []
+colorsync = []
+combine = []
+contacts = []
+contactsui = []
+coreaudio = []
+coreaudiokit = []
+coreaudiotypes = []
+corebluetooth = []
+coredata = []
+corehaptics = []
+coreimage = []
+corelocation = []
+corelocationui = []
+coremedia = []
+coremidi = []
+coreml = []
+coremotion = []
+corenfc = []
+coreservices = []
+corespotlight = []
+coretelephony = []
+coretext = []
+coretransferable = []
+corevideo = []
+createml = []
+createmlcomponents = []
+cryptokit = []
+cryptotokenkit = []
+datadetection = []
+developertoolssupport = []
+deviceactivity = []
+devicecheck = []
+devicediscoveryextension = []
+driverkit = []
+eventkit = []
+eventkitui = []
+exposurenotification = []
+extensionfoundation = []
+extensionkit = []
+externalaccessory = []
+familycontrols = []
+fileprovider = []
+fileproviderui = []
+gamecontroller = []
+gamekit = []
+gameplaykit = []
+glkit = []
+groupactivities = []
+gss = []
+healthkit = []
+healthkitui = []
+homekit = []
+iad = []
+identitylookup = []
+identitylookupui = []
+imagecapturecore = []
+imageio = []
+intents = []
+intentsui = []
+iokit = []
+iosurface = []
+javascriptcore = []
+linkpresentation = []
+localauthentication = []
+localauthenticationembeddedui = []
+managedsettings = []
+managedsettingsui = []
+mapkit = []
+matter = []
+mattersupport = []
+mediaaccessibility = []
+mediaplayer = []
+mediasetup = []
+mediatoolbox = []
+messages = []
+messageui = []
+metal = []
+metalfx = []
+metalkit = []
+metalperformanceshaders = []
+metalperformanceshadersgraph = []
+metrickit = []
+mlcompute = []
+mobilecoreservices = []
+modelio = []
+multipeerconnectivity = []
+musickit = []
+naturallanguage = []
+nearbyinteraction = []
+network = []
+networkextension = []
+newsstandkit = []
+notificationcenter = []
+openal = []
+opengles = []
+oslog = []
+passkit = []
+pdfkit = []
+pencilkit = []
+phase = []
+photos = []
+photosui = []
+proximityreader = []
+pushkit = []
+pushtotalk = []
 quartzcore = []
+quicklook = []
+quicklookthumbnailing = []
+realityfoundation = []
+realitykit = []
+replaykit = []
+roomplan = []
+safariservices = []
+safetykit = []
+scenekit = []
+screentime = []
 security = []
-mach = ["default"]  # Mach APIs enabled by default
+sensorkit = []
+sharedwithyou = []
+sharedwithyoucore = []
+shazamkit = []
+social = []
+soundanalysis = []
+speech = []
+spritekit = []
+storekit = []
+swiftui = []
+systemconfiguration = []
+tabulardata = []
+threadnetwork = []
+twitter = []
+uikit = []
+uniformtypeidentifiers = []
+usernotifications = []
+usernotificationsui = []
+videosubscriberaccount = []
+videotoolbox = []
+vision = []
+visionkit = []
+watchconnectivity = []
+watchkit = []
+weatherkit = []
+webkit = []
+widgetkit = []
+
+# ============================================================================
+# Private Framework Features (ALL 1,830 frameworks)
+# Generated from System/Library/PrivateFrameworks/*.tbd files
+# ============================================================================
+# Note: These don't have headers, bindings are generated from TBD symbol info
+aaafoundation = []
+aaafoundationswift = []
+aaccore = []
+abmhelper = []
+accessibilityaudit = []
+accessibilityfocusengine = []
+accessibilityphysicalinteraction = []
+accessibilityplatformtranslation = []
+accessibilityremoteservices = []
+accessibilityremoteuiservices = []
+accessibilitysharedsupport = []
+accessibilityshareduisupport = []
+accessibilityui = []
+accessibilityuiservice = []
+accessibilityuishared = []
+accessibilityuiutilities = []
+accessibilityuiviewservices = []
+accessibilityutilities = []
+accessoryassistivetouch = []
+accessoryaudio = []
+accessoryblepairing = []
+accessorycommunications = []
+accessorycomponentauth = []
+accessoryhid = []
+accessoryiap2shim = []
+accessorymedialibrary = []
+accessorynavigation = []
+accessorynowplaying = []
+accessoryoobbtpairing = []
+accessoryvoiceover = []
+accountnotification = []
+accountsdaemon = []
+accountsui = []
+acousticmaterials = []
+actframework = []
+actionkit = []
+actionkitui = []
+actionpredictionheuristics = []
+actionpredictionheuristicsinternal = []
+activityachievements = []
+activityachievementsdaemon = []
+activityachievementsui = []
+activityawardsclient = []
+activityawardscore = []
+activityawardsservices = []
+activityringsui = []
+activitysharing = []
+activitysharingui = []
+activityuiservices = []
+adcore = []
+addressbooklegacy = []
+adid = []
+adminlite = []
+adplatforms = []
+adplatformscommon = []
+adplatformscommonui = []
+adplatformsinternal = []
+afibburden = []
+afkuser = []
+aggregatedictionary = []
+aggregatedictionaryhistory = []
+agxcompilerconnections2a8 = []
+agxcompilercore = []
+agxcompilercores2a8 = []
+agxgpurawcounter = []
+aimlexperimentationanalytics = []
+aimlinstrumentationstreams = []
+airplaykit = []
+airplayreceiver = []
+airplayreceiverkit = []
+airplayrouteprediction = []
+airplaysender = []
+airplaysupport = []
+airplaysync = []
+airportassistant = []
+airtraffic = []
+airtrafficdevice = []
+algosscoreframework = []
+altruisticbodyposekit = []
+ampcoreui = []
+anecompiler = []
+aneservices = []
+annotationkit = []
+announce = []
+announcedaemon = []
+announcesiriextensions = []
+anstkit = []
+aophaptics = []
+aoskit = []
+apconfigurationsystem = []
+apfoundation = []
+apfs = []
+apfsbootmount = []
+appanalytics = []
+appattestinternal = []
+appc3d = []
+appconduit = []
+appleaccount = []
+appleaccountui = []
+applebasebandmanager = []
+applebasebandservices = []
+appleconvergedfirmwareupdater = []
+applecv3d = []
+applecv3dha = []
+applecv3dmodels = []
+applecv3dmovkit = []
+applecva = []
+applecvaphoto = []
+applecvhwa = []
+appledepth = []
+appledepthcore = []
+applefirmwareupdate = []
+appleflatbuffers = []
+applefscompression = []
+applehidtransportsupport = []
+appleidauthsupport = []
+appleidssoauthentication = []
+applejpeg = []
+applekeystore = []
+appleldap = []
+applemediadiscovery = []
+applemediaservices = []
+applemediaservicesui = []
+applemediaservicesuidynamic = []
+applemediaservicesuipaymentsheets = []
+applemobilefileintegrity = []
+appleneuralengine = []
+applenvme = []
+applepdphelper = []
+applephotondetectorservices = []
+applepushservice = []
+applesauce = []
+appleservicetoolkit = []
+applesrp = []
+appletracingsupportsymbolication = []
+appleuserconsent = []
+appnotificationsloggingclient = []
+apppredictionclient = []
+apppredictionfoundation = []
+apppredictioninternal = []
+apppredictionui = []
+apppredictionuifoundation = []
+apppredictionuiwidget = []
+appserversupport = []
+appsso = []
+appssocore = []
+appssokerberos = []
+appssoui = []
+appstate = []
+appstorecomponents = []
+appstoredaemon = []
+appstorefoundation = []
+appstorekit = []
+appstorekitinternal = []
+appstoreoverlays = []
+appstoreui = []
+appsupport = []
+appsupportui = []
+aptransport = []
+arkitcore = []
+arkitfoundation = []
+arkitui = []
+aseprocessing = []
+askpermission = []
+asoctanesupport = []
+assertionservices = []
+assetcacheservices = []
+assetcacheservicesextensions = []
+assetexplorer = []
+assetviewer = []
+assistantcardservicesupport = []
+assistantservices = []
+assistantsettingssupport = []
+assistantui = []
+atfoundation = []
+attentionawareness = []
+attributegraph = []
+audevelopersettings = []
+audioanalytics = []
+audiodataanalysis = []
+audiogramingestion = []
+audiopasscode = []
+audioserverapplication = []
+audioserverdriver = []
+audiosession = []
+audiosessionserver = []
+audiotoolboxcore = []
+audiotransportcommon = []
+ausettings = []
+authenticationservicescore = []
+authkit = []
+authkitui = []
+autobugcapturecore = []
+autoloop = []
+automationmode = []
+availabilitykit = []
+avatarkit = []
+avatarpersistence = []
+avatarui = []
+avconference = []
+avfcapture = []
+avfcore = []
+axaggregatestatisticsservices = []
+axassetloader = []
+axcontainerservices = []
+axcoreutilities = []
+axelementinteraction = []
+axfrontboardutils = []
+axidsservices = []
+axlocalizationcaptionservice = []
+axmediautilities = []
+axntkutilities = []
+axruntime = []
+axsounddetection = []
+axsounddetectionui = []
+axspeakfingermanager = []
+axspeechassetservices = []
+axspringboardserverinstance = []
+axtaptospeaktime = []
+axwatchremotescreenservices = []
+axwatchremotescreenui = []
+backboardhideventfoundation = []
+backboardhideventprocessors = []
+backboardservices = []
+backgroundsystemtasks = []
+backgroundtaskagent = []
+backlightservices = []
+backlightserviceshost = []
+backlightuiservices = []
+bagkit = []
+bannerkit = []
+barcodesupport = []
+baseboard = []
+baseboardui = []
+batterycenter = []
+batterycenterui = []
+behaviorminer = []
+biomedsl = []
+biomeflexiblestorage = []
+biomefoundation = []
+biomelibrary = []
+biomepubsub = []
+biomesequence = []
+biomestorage = []
+biomestreams = []
+biomesync = []
+biometrickit = []
+biometrickitui = []
+biometricsupport = []
+blastdoor = []
+bluetoothaudio = []
+bluetoothmanager = []
+bluetoothservices = []
+bluetoothservicesui = []
+boardservices = []
+bom = []
+bookcoverutility = []
+bookdatastore = []
+bookfoundation = []
+booklibrary = []
+booklibrarycore = []
+bookutility = []
+brailletranslation = []
+bridgecommons = []
+bridgepreferences = []
+bridgereporting = []
+brightnesscontrol = []
+brookdatacollection = []
+brookservices = []
+bulletinboard = []
+bulletindistributorcompanion = []
+businesschatservice = []
+businessservices = []
+businessservicesui = []
+buttonresolver = []
+c2 = []
+cachedelete = []
+calculate = []
+caldav = []
+calendardaemon = []
+calendardatabase = []
+calendarfoundation = []
+calendarlink = []
+calendarmigration = []
+calendarnotification = []
+calendaruikit = []
+calendarwidget = []
+callhistory = []
+cameracolorprocessing = []
+cameraeditkit = []
+cameraeffectskit = []
+cameraimagingframework = []
+camerakit = []
+cameraui = []
+captivenetwork = []
+cardkit = []
+cards = []
+cardservices = []
+carkit = []
+carouselpreferenceservices = []
+carp = []
+carplayservices = []
+carplaysupport = []
+carplayui = []
+carplayuiservices = []
+catalyst = []
+categories = []
+caulk = []
+cborlibrary = []
+cddataaccess = []
+cddataaccessexpress = []
+cdmfoundation = []
+celestial = []
+cellularbridgeui = []
+cellulardatadiagnosticssuite = []
+cellularplanmanager = []
+certinfo = []
+certui = []
+chatkit = []
+checkerboardservices = []
+chipplugin = []
+chirp = []
+chronocore = []
+chronokit = []
+chronoservices = []
+chronouiservices = []
+chunkinglibrary = []
+cinematicframing = []
+clarityfoundation = []
+classkitui = []
+classroomkit = []
+clipservices = []
+clipuiservices = []
+clockcomplications = []
+clockkitui = []
+clouddocs = []
+clouddocsdaemon = []
+clouddocsui = []
+cloudkitcode = []
+cloudkitcodeprotobuf = []
+cloudkitdaemon = []
+cloudkitdistributedsync = []
+cloudmediaservicesinterfacekit = []
+cloudphotolibrary = []
+cloudphotoservices = []
+cloudservices = []
+cloudsettings = []
+cloudsharing = []
+cloudsharingui = []
+cloudsubscriptionfeatures = []
+cmcapture = []
+cmcapturecore = []
+cmcontinuitycapturecore = []
+cmimaging = []
+cmphoto = []
+cognitivehealth = []
+coherence = []
+coherencecloudkitprivate = []
+collectionviewcore = []
+combinecocoa = []
+commandandcontrolui = []
+commonauth = []
+commonutilities = []
+communicationsfilter = []
+communicationssetupui = []
+companionauthentication = []
+companioncamera = []
+companionhealthdaemon = []
+companionsync = []
+compassui = []
+complicationdisplay = []
+conditioninducer = []
+configurationenginemodel = []
+constantclasses = []
+contactlessreaderui = []
+contactsassistantservices = []
+contactsautocomplete = []
+contactsautocompleteui = []
+contactsdonation = []
+contactsdonationfeedback = []
+contactsfoundation = []
+contactsmetrics = []
+contactsuicore = []
+containermanagercommon = []
+containermanagersystem = []
+containermanageruser = []
+contentkit = []
+contextkit = []
+contextkitcore = []
+contextkitextraction = []
+contextkitprediction = []
+contextsync = []
+contextualactionsclient = []
+contextualunderstanding = []
+continuousdialogmanagerservice = []
+controlcenterservices = []
+controlcenterui = []
+controlcenteruikit = []
+conversationkit = []
+coordination = []
+coordinationcore = []
+copresencecore = []
+coreaccessories = []
+coreaccessoriesfeatures = []
+coreanalytics = []
+coreapplecva = []
+coreauc = []
+coreautolayout = []
+corebluetoothui = []
+corebrightness = []
+corecapture = []
+corecapturecontrol = []
+corecapturedaemon = []
+corecdp = []
+corecdpinternal = []
+corecdpui = []
+corecdpuiinternal = []
+corechart = []
+corechartswift = []
+coredav = []
+coreduet = []
+coreduetcontext = []
+coreduetdaemonprotocol = []
+coreduetsync = []
+coreembeddedspeechrecognition = []
+coreemoji = []
+corefollowup = []
+corefollowupui = []
+coreglyphs = []
+corehandwriting = []
+corehap = []
+coreidcred = []
+coreidcredbuilder = []
+coreidv = []
+coreidvpad = []
+coreidvrgbliveness = []
+coreidvshared = []
+coreidvui = []
+coreik = []
+coreindoor = []
+coreknowledge = []
+corelocationprotobuf = []
+corelocationreplay = []
+corematerial = []
+coremediastream = []
+coremotionalgorithms = []
+coremotionmodels = []
+corenameparser = []
+corenavigation = []
+corenlp = []
+coreodi = []
+coreodiessentials = []
+coreoptimization = []
+coreparsec = []
+corepdf = []
+corephonenumbers = []
+coreprediction = []
+corere = []
+corerealityio = []
+corerecents = []
+corerecognition = []
+corerepaircore = []
+corerepairkit = []
+corerepairlite = []
+corerepairui = []
+coreroutine = []
+coresdb = []
+coreservicesinternal = []
+coreservicesstore = []
+corespeech = []
+corespeechfoundation = []
+coresuggestions = []
+coresuggestionsinternals = []
+coresuggestionsml = []
+coresuggestionsui = []
+coresvg = []
+coresymbolication = []
+corethemedefinition = []
+corethread = []
+coretime = []
+coreuarp = []
+coreui = []
+coreutils = []
+coreutilsextras = []
+coreutilsswift = []
+coreutilsui = []
+corewifi = []
+cornobble = []
+coversheet = []
+coversheetkit = []
+cpanalytics = []
+cpmlbestshim = []
+cpms = []
+crashreportersupport = []
+cryptokitcbridging = []
+cryptokitprivate = []
+ctcarrierspace = []
+ctcarrierspaceui = []
+cvnlp = []
+daapkit = []
+dacaldav = []
+dacarddav = []
+dacoredavglue = []
+dadaemonsupport = []
+daeas = []
+daeasoauthframework = []
+daimapnotes = []
+daldap = []
+dasdaemon = []
+dasdelegate = []
+dashboard = []
+dasubcal = []
+dataaccess = []
+dataaccessexpress = []
+dataaccessui = []
+datadeliveryservices = []
+datadetectorscore = []
+datadetectorsnaturallanguage = []
+datadetectorsui = []
+datamigration = []
+deepthought = []
+depclientlibrary = []
+desktopservicespriv = []
+deu = []
+deviceaccess = []
+deviceactivityconductor = []
+devicecheckinternal = []
+devicediscoveryuicore = []
+deviceidentity = []
+devicemanagement = []
+devicemanagementtools = []
+deviceomatic = []
+devicepresence = []
+devicetodevicemanager = []
+diagnosticextensions = []
+diagnosticextensionsdaemon = []
+diagnosticlogcollection = []
+diagnosticrequest = []
+diagnosticrequestservice = []
+diagnosticskit = []
+diagnosticsreporterservices = []
+diagnosticssupport = []
+dialogengine = []
+dictionaryservices = []
+dictionaryui = []
+differentialprivacy = []
+digitalaccess = []
+digitalseparation = []
+digitalseparationui = []
+digitaltouchshared = []
+disembark = []
+disembarkui = []
+diskarbitration = []
+diskimages = []
+diskimages2 = []
+diskspacediagnostics = []
+displayandbrightnesssettings = []
+distributedevaluation = []
+distributedsensing = []
+dmcenrollmentlibrary = []
+dmcenrollmentprovider = []
+dmctoolsuiutilities = []
+dmcutilities = []
+documentcamera = []
+documentmanager = []
+documentmanagercore = []
+documentmanagerexecutables = []
+documentmanageruicore = []
+documentunderstanding = []
+donotdisturb = []
+donotdisturbkit = []
+donotdisturbserver = []
+dragui = []
+drawingkit = []
+drivermanagement = []
+drmfoundation = []
+dropin = []
+dropincore = []
+dsremotepairing = []
+dtxconnectionservices = []
+duetactivityscheduler = []
+dvtinstrumentsfoundation = []
+dvtinstrumentsutilities = []
+eafirmwareupdater = []
+eap8021x = []
+easyconfig = []
+eci = []
+editscript = []
+email = []
+emailaddressing = []
+emailcore = []
+emaildaemon = []
+emailfoundation = []
+embeddedacousticrecognition = []
+embeddeddatareset = []
+emergencyalerts = []
+emojifoundation = []
+emojikit = []
+emojiposter = []
+eng = []
+engram = []
+enhancedloggingstate = []
+enu = []
+equationkit = []
+esdaemonsupport = []
+esm = []
+esp = []
+espresso = []
+eventmetadataextractor = []
+exchangesync = []
+exchangesyncexpress = []
+exposurenotificationdaemon = []
+eyedropper = []
+facecore = []
+familycircle = []
+familycircleui = []
+familycontrolsobjc = []
+familynotification = []
+featureflags = []
+featureflagssupport = []
+featurestore = []
+feedback = []
+feedbackcore = []
+feedbacklogger = []
+fileproviderdaemon = []
+filesactionsui = []
+fin = []
+financedaemon = []
+financekit = []
+financekitui = []
+findmydevice = []
+findmydeviceui = []
+finhealth = []
+fitness = []
+fitnesscoaching = []
+fitnesscoachingcore = []
+fitnesscoachinghealthservices = []
+fitnesscoachingservices = []
+fitnessui = []
+flexmusickit = []
+flightutilities = []
+flightutilitiescore = []
+flowframekit = []
+fluid = []
+fmcore = []
+fmcorelite = []
+fmcoreui = []
+fmf = []
+fmfcore = []
+fmfui = []
+fmipcore = []
+fmnetworking = []
+fmprecisionfindingui = []
+focus = []
+focussettingsui = []
+focusui = []
+fontservices = []
+foundationodr = []
+foundinappsplugins = []
+fra = []
+frc = []
+friendkit = []
+frontboard = []
+frontboardservices = []
+fsevents = []
+ftawd = []
+ftclientservices = []
+ftservices = []
+fusiontracker = []
+futhark = []
+gambit = []
+gamecenterfoundation = []
+gamecenterui = []
+gamecenteruicore = []
+gamecontrollerfoundation = []
+gamecontrollersettings = []
+gamekitservices = []
+generalsettingsui = []
+generationalstorage = []
+geometry = []
+geoservices = []
+geoservicescore = []
+gksperformance = []
+gpurawcounter = []
+gputoolscapture = []
+gputoolsdiagnostics = []
+gputoolstransport = []
+gradientposter = []
+graphicsservices = []
+graphvisualizer = []
+grdb = []
+griddataservices = []
+h10ispservices = []
+h13ispservices = []
+haenotifications = []
+hangtracer = []
+haptics = []
+hardwarediagnostics = []
+hdrprocessing = []
+headphoneconfigs = []
+headphonesettings = []
+healthalgorithms = []
+healthappservices = []
+healthappsupport = []
+healtharticlesgeneration = []
+healtharticlesui = []
+healthdaemon = []
+healthdaemonfoundation = []
+healthdiagnosticextensioncore = []
+healthdomainstools = []
+healthexperience = []
+healthexperienceui = []
+healthexposurenotificationui = []
+healthhearing = []
+healthhearingdaemon = []
+healthmedications = []
+healthmedicationsdaemonplugin = []
+healthmedicationsexperience = []
+healthmedicationsui = []
+healthmedicationsvision = []
+healthmedicationsvisionui = []
+healthmedicationswidgetui = []
+healthmenstrualcycles = []
+healthmenstrualcyclesdaemon = []
+healthmenstrualcyclesui = []
+healthmobility = []
+healthmobilitydaemon = []
+healthmobilityui = []
+healthplatform = []
+healthplatformcore = []
+healthpluginhost = []
+healthrecordsconceptssupport = []
+healthrecordsdaemon = []
+healthrecordservices = []
+healthrecordsextraction = []
+healthrecordsui = []
+healthrecordswalletsupport = []
+healthtoolbox = []
+healthui = []
+healthvisualization = []
+hearingcore = []
+hearingmlhelper = []
+hearingui = []
+hearingutilities = []
+hearthealth = []
+hearthealthdaemon = []
+heartrhythmui = []
+heimdal = []
+helpkit = []
+herodataclient = []
+hid = []
+hidanalytics = []
+hiddisplay = []
+hidpreferences = []
+hmfoundation = []
+home = []
+homeai = []
+homeautomationinternal = []
+homedevicesetup = []
+homekitbackingstore = []
+homekitdaemon = []
+homekitdaemonlegacy = []
+homekiteventrouter = []
+homekitmatter = []
+homekitmetrics = []
+homemessagingutils = []
+homeplatformsettingsui = []
+homepodsettings = []
+homerecommendationengine = []
+homesharing = []
+homeui = []
+hovertextservices = []
+hovertextui = []
+hrtfenrollment = []
+hsaauthentication = []
+humanunderstandingevidence = []
+humanunderstandingfoundation = []
+iap = []
+iapauthentication = []
+icalendar = []
+ice = []
+iclouddrivecore = []
+iclouddriveservice = []
+icloudnotification = []
+icloudquota = []
+icloudquotaui = []
+icloudsubscriptionoptimizerclient = []
+icloudsubscriptionoptimizercore = []
+icloudsubscriptionoptimizerdaemon = []
+icloudsubscriptionoptimizerlighthouse = []
+icloudsubscriptionoptimizerpfltraining = []
+iconfoundation = []
+iconservices = []
+idletimerhosting = []
+idletimerservices = []
+ids = []
+idsblastdoorsupport = []
+idsfoundation = []
+idshashpersistence = []
+idskvstore = []
+imap = []
+imassistantcore = []
+imavcore = []
+imcore = []
+imcorepipeline = []
+imdaemoncore = []
+imdmessageservices = []
+imdpersistence = []
+imessageapps = []
+imfoundation = []
+imsharedui = []
+imsharedutilities = []
+imtranscoderagent = []
+imtranscoding = []
+imtransferagent = []
+imtransferservices = []
+inappmessages = []
+inappmessagescore = []
+incomingcallfilter = []
+inertiacam = []
+infoquerypersonalizationfeatures = []
+inputcontext = []
+inputtranscoder = []
+installcoordination = []
+installedcontentlibrary = []
+intelligenceengine = []
+intelligenceplatform = []
+intelligenceplatformcore = []
+intentscore = []
+intentsfoundation = []
+intentsservices = []
+intentsuicardkitprovidersupport = []
+internalswiftprotobuf = []
+internationalsupport = []
+internationaltextsearch = []
+intlpreferences = []
+intlpreferencesui = []
+io80211 = []
+ioaccelerator = []
+ioaccelmemoryinfo = []
+ioaccessorymanager = []
+iogpu = []
+ioimageloader = []
+iokitten = []
+iomobileframebuffer = []
+iosdiagnostics = []
+iosscreensharing = []
+iosurfaceaccelerator = []
+iousbhost = []
+ispairplay = []
+ita = []
+itmlkit = []
+itunescloud = []
+itunesstore = []
+itunesstoreui = []
+iworkxpc = []
+ixatestapprelay = []
+jet = []
+jetengine = []
+jetengineswiftui = []
+jetpack = []
+jetui = []
+jetuiswiftui = []
+jitappkit = []
+keyboardarbiter = []
+keyboardservices = []
+keyboardsettingsfeedback = []
+keychaincircle = []
+keynotequicklook = []
+knowledgegraphkit = []
+knowledgemonitor = []
+koa = []
+koamapper = []
+kperf = []
+kperfdata = []
+krexperiments = []
+ktrace = []
+languagemodeling = []
+latentsemanticmapping = []
+learnedfeatures = []
+legacygamekit = []
+legacyhandle = []
+legalandregulatorysettingsprivate = []
+lexicon = []
+libangleshared = []
+libcomposefilters = []
+libedr = []
+libfontparser = []
+libgpucompiler = []
+libgpucompilerimpl = []
+libgpucompilerimpllazy = []
+libgpucompilerutils = []
+libgpusupportmercury = []
+libgsfont = []
+libgsfontcache = []
+libhvf = []
+libiptelephony = []
+liblivefilesplugindummy = []
+libmtlcompilerhelper = []
+libortools = []
+libsessionutility = []
+libtype1scaler = []
+libvfxcore = []
+libvoicedtts = []
+libwebrtc = []
+liftui = []
+lighthousebitacoraframework = []
+lighthousecoremlfeaturestore = []
+lighthousecoremlmodelanalysis = []
+lighthousecoremlmodelstore = []
+lighthousedictation = []
+lighthousemodelmonitoring = []
+lighthousenightingale = []
+lighthousereferenceresolution = []
+lighthouseruntime = []
+limitadtracking = []
+linguisticdata = []
+linkmanifesttools = []
+linkmetadata = []
+linkservices = []
+liveexecutionresultsfoundation = []
+liveexecutionresultsprobe = []
+liveexecutionresultsruntime = []
+livefilesapfs = []
+livefilescs = []
+livefilesexfat = []
+livefileshfs = []
+livefilesmsdos = []
+livefilesntfs = []
+livefs = []
+livefsfphelper = []
+livetranscription = []
+localauthenticationprivateui = []
+localspeechrecognitionbridge = []
+locationsupport = []
+lockoutui = []
+loggingsupport = []
+loginkit = []
+loginperformancekit = []
+loginuilogviewer = []
+loopkitgeneratedkernels = []
+lowpowermode = []
+macintalk = []
+magnifiersupport = []
+mailkit = []
+mailservices = []
+mailsupport = []
+mailui = []
+mailwebprocesssupport = []
+mallocstacklogging = []
+managedconfiguration = []
+managedconfigurationui = []
+managedevent = []
+managedsettingsobjc = []
+managedsettingssupport = []
+mapssuggestions = []
+mapssupport = []
+mapssync = []
+mapsui = []
+marco = []
+markupui = []
+marrs = []
+materialkit = []
+mdm = []
+mdmclientlibrary = []
+measurefoundation = []
+mediaanalysis = []
+mediaanalysisservices = []
+mediacontrols = []
+mediacontrolsender = []
+mediaconversionservice = []
+mediacoreui = []
+mediaexperience = []
+mediafoundation = []
+mediagroups = []
+mediagroupsdaemon = []
+mediakit = []
+medialibrarycore = []
+mediaminingkit = []
+mediaplatform = []
+mediaplaybackcore = []
+mediaplayerui = []
+mediaremote = []
+mediaremotedaemonservices = []
+mediasafetynet = []
+mediaservices = []
+mediaservicesbroker = []
+mediastream = []
+memorydiagnostics = []
+menstrualalgorithmsinternal = []
+mercury = []
+message = []
+messagelegacy = []
+messageprotection = []
+messagesblastdoorsupport = []
+messagescloudsync = []
+messagesecurity = []
+messagessupport = []
+messagesupport = []
+metadatautilities = []
+metaltools = []
+metrickitcore = []
+metrickitservices = []
+metrickitsource = []
+metricmeasurement = []
+metricskit = []
+mfaauthentication = []
+migrationkit = []
+mil = []
+milaneflow = []
+mime = []
+mlassetio = []
+mlkit = []
+mlruntime = []
+mmcs = []
+mmcsservices = []
+mobileaccessoryupdater = []
+mobileactivation = []
+mobileasset = []
+mobileassetupdater = []
+mobilebackup = []
+mobilebluetooth = []
+mobilecontainermanager = []
+mobiledevicelink = []
+mobileicons = []
+mobileinboxupdate = []
+mobileinstallation = []
+mobilekeybag = []
+mobilelookup = []
+mobilemailui = []
+mobileobliteration = []
+mobilesafari = []
+mobilesafariswift = []
+mobilesafariui = []
+mobilesoftwareupdate = []
+mobilespotlightindex = []
+mobilestorage = []
+mobilestoredemokit = []
+mobilestoredemosetupui = []
+mobilesync = []
+mobilesystemservices = []
+mobiletimer = []
+mobiletimersupport = []
+mobiletimerui = []
+mobilewifi = []
+moments2 = []
+montreal = []
+morphunassets = []
+morphunswift = []
+motionsensorlogging = []
+movstreamio = []
+mpufoundation = []
+msudataaccessor = []
+mtlcompiler = []
+mtlspline = []
+multitouchsessionfiltersupport = []
+multitouchsupport = []
+musiccardisplayui = []
+musickitinternal = []
+musickitinternalmediaplaybackcore = []
+musickitinternalmediaplayer = []
+musickitinternalswiftui = []
+musiclibrary = []
+musicsettingssupport = []
+musicstoreui = []
+musicui = []
+nanoappregistry = []
+nanoaudiocontrol = []
+nanobackup = []
+nanocomplicationsettings = []
+nanoleash = []
+nanomailcompanionui = []
+nanomailkitserver = []
+nanomediaapi = []
+nanomediabridgeui = []
+nanomediaremote = []
+nanomusicsync = []
+nanopasskit = []
+nanophotoscore = []
+nanopreferencessync = []
+nanoregistry = []
+nanoresourcegrabber = []
+nanosystemsettings = []
+nanotimekit = []
+nanotimekitcompanion = []
+nanouniverse = []
+nanoweathercomplicationscompanion = []
+nanoweatherkituicompanion = []
+navigation = []
+nclaunchstats = []
+nearfield = []
+nearfieldaccessory = []
+netappsutilities = []
+netappsutilitiesui = []
+netrb = []
+networkrelay = []
+networkserviceproxy = []
+networkstatistics = []
+neutrinocore = []
+neutrinokit = []
+newdeviceoutreach = []
+newdeviceoutreachui = []
+newsads = []
+newsanalytics = []
+newsanalyticsupload = []
+newsarticles = []
+newscore = []
+newsdaemon = []
+newsengagement = []
+newsengagementcollector = []
+newsfeed = []
+newsfoundation = []
+newskit = []
+newspersonalization = []
+newsservices = []
+newsservicesinternal = []
+newssubscription = []
+newstoday = []
+newstransport = []
+newsui = []
+newsui2 = []
+newsurlbucket = []
+newsurlresolution = []
+nexus = []
+nlp = []
+nlplearner = []
+nonverbalcues = []
+notes = []
+notesanalytics = []
+noteseditor = []
+notespreviewkit = []
+notesshared = []
+notessupport = []
+notesui = []
+notthestorekituiframeworkyouarelookingfor = []
+nptkit = []
+numbersquicklook = []
+oauth = []
+objectunderstanding = []
+octagontrust = []
+odcurareanalysis = []
+odcurareevaluationandreporting = []
+officeimport = []
+onboardingkit = []
+oncrpc = []
+opticalflowframework = []
+opusfoundation = []
+opuskit = []
+osanalytics = []
+osanalyticsprivate = []
+osaservicesclient = []
+osasubmissionclient = []
+osasyncproxyclient = []
+osintelligence = []
+osprey = []
+otsvg = []
+packetfilter = []
+pagesquicklook = []
+pairedsync = []
+pairedunlock = []
+pairingproximity = []
+paperboardui = []
+paperkit = []
+paravirtualizedane = []
+parsecmodel = []
+parsecsubscriptionservicesupport = []
+passkitcore = []
+passkitservices = []
+passkitui = []
+passkituifoundation = []
+pasteboard = []
+paymentui = []
+paymentuibase = []
+pbbridgesupport = []
+pds = []
+pdsagent = []
+pegasus = []
+pegasusapi = []
+pegasusconfiguration = []
+pegasuskit = []
+pegasuspersistence = []
+pencilpairingui = []
+people = []
+peoplesuggester = []
+peopleui = []
+peopleuiinternal = []
+perfdata = []
+performancetrace = []
+perfpowertelemetrymetadata = []
+perfpowertelemetryreader = []
+persistentconnection = []
+personakit = []
+personalaudio = []
+personalintelligencecore = []
+personalizationportrait = []
+personalizationportraitinternals = []
+personalunderstanding = []
+personaui = []
+phoenix = []
+phonenumberresolver = []
+phonenumbers = []
+photoanalysis = []
+photobootheffects = []
+photofoundation = []
+photoimaging = []
+photolibrary = []
+photolibraryservices = []
+photolibraryservicescore = []
+photosensitivityprocessing = []
+photosformats = []
+photosgraph = []
+photosimagingfoundation = []
+photosplayer = []
+photosuiapps = []
+photosuicore = []
+photosuiedit = []
+photosuiprivate = []
+photovision = []
+physicskit = []
+placeskit = []
+platformsso = []
+platterkit = []
+plsnapshot = []
+pluginkit = []
+podcastsfoundation = []
+podcastskit = []
+podcastsui = []
+pointeruiservices = []
+pointeruisystemservices = []
+pop = []
+portrait = []
+portraitcore = []
+posterboard = []
+posterboardservices = []
+posterboardui = []
+posterkit = []
+postsiriengagement = []
+powerlog = []
+powerlogaccounting = []
+powerlogcontrol = []
+powerlogcore = []
+powerlogdatabasereader = []
+powerlogfulloperators = []
+powerloghelperdoperators = []
+powerlogliteoperators = []
+powerui = []
+preferences = []
+preferencesui = []
+previewsfoundation = []
+previewshellkit = []
+previewsinjection = []
+previewsmessaging = []
+previewsossupport = []
+previewsossupportui = []
+previewsservices = []
+previewsservicesui = []
+prideposter = []
+printkit = []
+printkitui = []
+privacyaccounting = []
+privacydisclosurecore = []
+privacydisclosureui = []
+privacysettingsui = []
+privatefederatedlearning = []
+privatesearchclient = []
+privatesearchcore = []
+privatesearchprotocols = []
+proactiveblendinglayerios = []
+proactivecdndownloader = []
+proactivecontextclient = []
+proactiveeventtracker = []
+proactiveexperiments = []
+proactiveexperimentsinternals = []
+proactiveharvesting = []
+proactiveinputpredictions = []
+proactiveinputpredictionsinternals = []
+proactiveinsights = []
+proactivemagicalmoments = []
+proactiveml = []
+proactivesharesheetdataharvestinglighthouse = []
+proactivesharesheetlocaltrainer = []
+proactivesuggestionclientmodel = []
+proactivesupport = []
+proactivesupportstubs = []
+productkit = []
+profilevalidatedappidentity = []
+progressui = []
+promotedcontent = []
+promotedcontentprediction = []
+promotedcontentproxy = []
+promotedcontentsupport = []
+promotedcontentui = []
+proofreader = []
+protectedcloudstorage = []
+protocolbuffer = []
+prototypetools = []
+prototypetoolsui = []
+provideo = []
+proxcardkit = []
+proximity = []
+proximityappleidsetup = []
+proximityappleidsetupui = []
+proximitycontrol = []
+proximityui = []
+ptb = []
+qlcharts = []
+quagga = []
+queryparser = []
+quicklooksupport = []
+quicklookthumbnailgeneration = []
+quicklookthumbnailingdaemon = []
+quicklookuicore = []
+radio = []
+rapport = []
+rapportui = []
+realityfusion = []
+realityio = []
+recap = []
+recapperformancetesting = []
+recon3d = []
+regulatorydomain = []
+relativemotion = []
+relevanceengine = []
+relevanceengineui = []
+reminderkit = []
+reminderkitinternal = []
+reminderkitui = []
+remindersuicore = []
+remoteconfiguration = []
+remotecoreml = []
+remotehid = []
+remotemanagement = []
+remotemanagementmodel = []
+remotemanagementprotocol = []
+remotemanagementstore = []
+remotemanagementui = []
+remotemediaservices = []
+remotepairingdevice = []
+remoteservicediscovery = []
+remotestatedumpkit = []
+remotetextinput = []
+remoteui = []
+remotexpc = []
+renderbox = []
+reportingplugin = []
+requestdispatcherbridges = []
+respiratoryhealth = []
+respiratoryhealthdaemon = []
+respiratoryhealthui = []
+responsekit = []
+resync = []
+revealcore = []
+rtbuddycrashlogdecoder = []
+rtcreporting = []
+rttui = []
+rttutilities = []
+runningboard = []
+runningboardservices = []
+safari = []
+safaricore = []
+safarifoundation = []
+safarisafebrowsing = []
+safarishared = []
+safarisharedui = []
+safetyalerts = []
+saml = []
+sampleanalysis = []
+saobjects = []
+savagecaminterface = []
+sceneintelligence = []
+schooltime = []
+schooltimesettingsui = []
+screenreaderbrailledriver = []
+screenreadercore = []
+screenreaderoutput = []
+screenshotservices = []
+screentimecore = []
+screentimefoundation = []
+screentimesettingsui = []
+screentimeui = []
+screentimeuicore = []
+sdapi = []
+search = []
+searchads = []
+searchfoundation = []
+searchtosharecore = []
+searchui = []
+searchuicardkitprovidersupport = []
+securechannel = []
+securetransactionservice = []
+securityfoundation = []
+seeding = []
+sensorkithelper = []
+sensorkitsupport = []
+sensorkitui = []
+sentencepiece = []
+sentry = []
+separationalerts = []
+servicemanagement = []
+seservice = []
+sessionalert = []
+sessionassertion = []
+sessioncore = []
+sessionfoundation = []
+sessionpushnotifications = []
+sessionsql = []
+sessionsyncengine = []
+settings = []
+settingscellular = []
+settingscellularui = []
+settingsfoundation = []
+settingsuikit = []
+settingsuikitprivate = []
+setupassistant = []
+setupassistantsupport = []
+setupassistantui = []
+setupkit = []
+seymourclient = []
+seymourcore = []
+seymourmedia = []
+seymourserverprotocol = []
+seymourservices = []
+seymourui = []
+sfsymbols = []
+sharedwebcredentials = []
+sharesheet = []
+sharing = []
+sharinghud = []
+sharingui = []
+sharingxpcservices = []
+shazamcore = []
+shazamevents = []
+shazaminsights = []
+shazamkitui = []
+shortcutuikit = []
+sidecarcore = []
+sidecarui = []
+signalcompression = []
+signpostcollection = []
+signpostmetrics = []
+signpostnotification = []
+signpostsupport = []
+silex = []
+silexvideo = []
+silexweb = []
+simplekeyexchange = []
+simsetupsupport = []
+simtoolkitui = []
+siriactivation = []
+sirianalytics = []
+siriapplaunchintents = []
+siriappresolution = []
+siriaudiointentutils = []
+siriaudiointernal = []
+siriaudiosupport = []
+siricalendarintents = []
+siricam = []
+siricarcommandsintents = []
+siricontactsintents = []
+siricore = []
+siricorrections = []
+siricrossdevicearbitrationfeedback = []
+siridailybriefinginternal = []
+siridialogengine = []
+siriemergencyintents = []
+siriexpanseinternal = []
+sirifindmy = []
+siriflowenvironment = []
+sirigeo = []
+siriidentityinternal = []
+siriincall = []
+siriinference = []
+siriinferenceflow = []
+siriinferenceintents = []
+siriinferredhelpfulness = []
+siriinformationsearch = []
+siriinformationtypes = []
+siriinstrumentation = []
+siriintentevents = []
+siriinvocationanalytics = []
+sirikitflow = []
+sirikitinvocation = []
+sirikitruntime = []
+siriliminal = []
+sirilinkdatatools = []
+sirimemorytypes = []
+sirimessagebus = []
+sirimodes = []
+sirinaturallanguagegeneration = []
+sirinaturallanguageparsing = []
+sirinluoverrides = []
+sirinlutypes = []
+sirinotebook = []
+sirinotificationsintents = []
+siriobservation = []
+siriontology = []
+siriontologyprotobuf = []
+siriplaybackcontrolintents = []
+siriplaybackcontrolsupport = []
+siripowerinstrumentation = []
+siriprivatelearninganalytics = []
+siriprivatelearninginference = []
+siriprivatelearninglogging = []
+sirireferenceresolution = []
+sirireferenceresolutiondatamodel = []
+sirireferenceresolver = []
+siriremembers = []
+sirirequestdispatcher = []
+sirisettingsintents = []
+sirisetup = []
+sirisharedui = []
+sirisignals = []
+sirisocialconversation = []
+sirispeechsynthesis = []
+siristates = []
+sirisuggestions = []
+sirisuggestionsapi = []
+sirisuggestionskit = []
+sirisuggestionssupport = []
+sirisystemcommandsintents = []
+siritaskengagement = []
+siritasks = []
+siritasksevaluation = []
+siritimeinternal = []
+siritranslationintents = []
+siritts = []
+sirittsservice = []
+siriui = []
+siriuiactivation = []
+siriuicardkitprovidersupport = []
+siriuicore = []
+siriuifoundation = []
+siriutilities = []
+sirivideointents = []
+sirivirtualdeviceresolution = []
+sirivox = []
+siriwellnessintents = []
+sleep = []
+sleepdaemon = []
+sleephealth = []
+sleephealthdaemon = []
+sleephealthui = []
+sleepwidgetui = []
+slideshowkit = []
+smartreplies = []
+smbclientengine = []
+smbclientprovider = []
+smbsearch = []
+snatmap = []
+snippetcommands = []
+snippetkit = []
+snippetui = []
+sociallayer = []
+socialservices = []
+softlinking = []
+softposreader = []
+softwareupdatebridge = []
+softwareupdatecore = []
+softwareupdatecoreconnect = []
+softwareupdatecoresupport = []
+softwareupdateservices = []
+softwareupdateservicesui = []
+softwareupdatesettings = []
+softwareupdatesettingsui = []
+sos = []
+soundautoconfig = []
+soundboardservices = []
+soundsandhapticssettings = []
+soundscapesutility = []
+speakerrecognition = []
+speakthisservices = []
+speaktypingservices = []
+speechdetector = []
+speechdictionary = []
+speechrecognitioncommandandcontrol = []
+speechrecognitioncommandservices = []
+speechrecognitioncore = []
+spfinder = []
+splashboard = []
+sportskit = []
+spotlight = []
+spotlightdaemon = []
+spotlightfoundation = []
+spotlightlinguistics = []
+spotlightreceiver = []
+spotlightservices = []
+spotlightui = []
+spotlightuiinternal = []
+spotlightuishared = []
+spowner = []
+springboard = []
+springboardfoundation = []
+springboardhome = []
+springboardservices = []
+springboardui = []
+springboarduiservices = []
+spshared = []
+ssmlservices = []
+stateful = []
+statuskit = []
+statuskitagentcore = []
+stocks = []
+stocksanalytics = []
+stockscore = []
+stockskit = []
+stocksui = []
+storagedata = []
+storagekit = []
+storagesettings = []
+storebookkeeper = []
+storebookkeeperclient = []
+storekitui = []
+storeservices = []
+streamingextractor = []
+streamingzip = []
+strokeanimation = []
+stsxpchelperclient = []
+studylog = []
+suggestionsspotlightmetrics = []
+swiftnn = []
+symbolication = []
+symptomanalytics = []
+symptomdiagnosticreporter = []
+symptomevaluator = []
+symptomnetworkusage = []
+symptompresentationfeed = []
+symptompresentationlite = []
+symptomreporter = []
+synapse = []
+synceddefaults = []
+syncedmodels = []
+systemaperture = []
+systemapertureui = []
+systempaperpresentation = []
+systemstatus = []
+systemstatusserver = []
+systemstatusui = []
+systemwake = []
+tailspinsymbolication = []
+tcc = []
+teacharts = []
+teadb = []
+teafoundation = []
+teasettings = []
+teasnappy = []
+teatemplate = []
+teaui = []
+teauikit = []
+telephonypreferences = []
+telephonyrpc = []
+telephonyui = []
+telephonyutilities = []
+telephonyxpcclient = []
+telephonyxpcserver = []
+templatekit = []
+testflightcore = []
+textcomposer = []
+textinput = []
+textinputchinese = []
+textinputcore = []
+textinputtestingkit = []
+textinputui = []
+textrecognition = []
+texttospeech = []
+texttospeechbundlesupport = []
+texttospeechkonasupport = []
+texttospeechmauisupport = []
+textureio = []
+timeline = []
+timesync = []
+tincanshared = []
+tipkit = []
+tipkit2 = []
+tipscore = []
+tipscore2 = []
+tipsdaemon = []
+tipsui = []
+tipsui2 = []
+tonekit = []
+tonelibrary = []
+touchml = []
+touchremote = []
+tqquicklook = []
+trackingavoidance = []
+translation = []
+translationui = []
+translationuiservices = []
+transliteration = []
+transparency = []
+transparencydetailsview = []
+trial = []
+trialproto = []
+trialserver = []
+trustedpeers = []
+tsapplication = []
+tscalculationengine = []
+tscharts = []
+tsdrawables = []
+tskit = []
+tspersistence = []
+tsreading = []
+tsstyles = []
+tstables = []
+tstext = []
+tsutility = []
+ttsasset = []
+turicore = []
+tvlatency = []
+tvmlkit = []
+tvplayback = []
+tvremotecore = []
+tvremoteui = []
+tvuikit = []
+typistframework = []
+typologyaccess = []
+uaaplinktools = []
+uarpicloud = []
+uarpupdaterservice = []
+uiaccessibility = []
+uifoundation = []
+uikitcore = []
+uikitservices = []
+uitriggervc = []
+unifiedassetframework = []
+unityposter = []
+urlcompression = []
+urlformatting = []
+usagetracking = []
+usdkit = []
+usdlibformatloaderproxy = []
+useractivity = []
+useralerts = []
+userfs = []
+usermanagement = []
+usermanagementui = []
+usernotificationskit = []
+usernotificationsserver = []
+usernotificationssettings = []
+usernotificationstranslation = []
+usernotificationsuikit = []
+uvfsxpcservice = []
+vcard = []
+vdafvdaf = []
+vectorkit = []
+vfx = []
+viceroytrace = []
+videoprocessing = []
+videosubscriberaccountui = []
+videosui = []
+videosuicore = []
+videotoolboxparavirtualizationsupport = []
+virtualgarage = []
+visagehrtf = []
+visioncore = []
+visionhwaccelerationservices = []
+visionkitcore = []
+visualalert = []
+visualintelligence = []
+visuallocalization = []
+visuallogger = []
+visualpairing = []
+visualvoicemail = []
+voicemailstore = []
+voicememos = []
+voiceoverservices = []
+voiceservices = []
+voiceshortcutclient = []
+voiceshortcuts = []
+voiceshortcutsuicardkitprovidersupport = []
+voicetrigger = []
+voicetriggerui = []
+wallpaperkit = []
+wallpapersettings = []
+watchcontrolassets = []
+watchcontrolsettings = []
+watchdogclient = []
+watchfaceswallpapersupport = []
+watchlistkit = []
+watchquickactionsservices = []
+watchreplies = []
+weather = []
+weatheranalytics = []
+weathercore = []
+weatherdaemon = []
+weatherfoundation = []
+weathermaps = []
+weatherui = []
+webapp = []
+webbookmarks = []
+webbookmarksswift = []
+webcontentanalysis = []
+webcontentrestrictions = []
+webcore = []
+webgpu = []
+webinspector = []
+webkitlegacy = []
+websheet = []
+webui = []
+welcomekit = []
+welcomekitcore = []
+welcomekitui = []
+widgetpreviewsextensionagent = []
+widgetpreviewssupport = []
+widgets = []
+wifianalytics = []
+wificloudsyncengine = []
+wifikit = []
+wifikitui = []
+wifilogcapture = []
+wifipeertopeer = []
+wifipolicy = []
+wifivelocity = []
+wirelesscoexmanager = []
+wirelessdiagnostics = []
+wirelessproximity = []
+workfloweditor = []
+workflowkit = []
+workflowui = []
+workflowuicore = []
+workflowuiservices = []
+workoutcore = []
+workouthealthbridge = []
+wpdaemon = []
+xaviercore = []
+xaviernews = []
+xcttargetbootstrap = []
+xgboostframework = []
+zhugesupport = []
+zoomservices = []
 
 default = ["mach"]
+
+# Convenience feature bundles
+graphics = ["coregraphics", "corevideo", "coreimage", "metal", "metalkit", "scenekit", "spritekit"]
+media = ["avfoundation", "avfaudio", "coremedia", "corevideo", "mediaplayer", "audiotoolbox"]
+ui = ["uikit", "quartzcore", "webkit", "mapkit", "photos", "photosui"]
+ml = ["coreml", "vision", "naturallanguage", "speech", "soundanalysis"]
+networking = ["network", "cfnetwork", "networkextension"]
+gaming = ["gamekit", "gameplaykit", "spritekit", "scenekit", "replaykit"]
+all = [
+    "runtime",
+    "accelerate", "accessibility", "accounts", "activitykit", "addressbook", "addressbookui",
+    "adservices", "adsupport", "appclip", "appintents", "apptrackingtransparency",
+    "arkit", "assetslibrary", "audiotoolbox", "audiounit", "authenticationservices",
+    "automateddeviceenrollment", "automaticassessmentconfiguration", "avfaudio", "avfoundation",
+    "avkit", "avrouting", "backgroundassets", "backgroundtasks", "businesschat", "callkit",
+    "carkey", "carplay", "cfnetwork", "charts", "classkit", "clockkit", "cloudkit",
+    "colorsync", "combine", "contacts", "contactsui", "coreaudio", "coreaudiokit",
+    "coreaudiotypes", "corebluetooth", "coredata", "corehaptics", "coreimage",
+    "corelocation", "corelocationui", "coremedia", "coremidi", "coreml", "coremotion",
+    "corenfc", "coreservices", "corespotlight", "coretelephony", "coretext",
+    "coretransferable", "corevideo", "createml", "createmlcomponents", "cryptokit",
+    "cryptotokenkit", "datadetection", "developertoolssupport", "deviceactivity",
+    "devicecheck", "devicediscoveryextension", "driverkit", "eventkit", "eventkitui",
+    "exposurenotification", "extensionfoundation", "extensionkit", "externalaccessory",
+    "familycontrols", "fileprovider", "fileproviderui", "gamecontroller", "gamekit",
+    "gameplaykit", "glkit", "groupactivities", "gss", "healthkit", "healthkitui",
+    "homekit", "iad", "identitylookup", "identitylookupui", "imagecapturecore", "imageio",
+    "intents", "intentsui", "iokit", "iosurface", "javascriptcore", "linkpresentation",
+    "localauthentication", "localauthenticationembeddedui", "managedsettings",
+    "managedsettingsui", "mapkit", "matter", "mattersupport", "mediaaccessibility",
+    "mediaplayer", "mediasetup", "mediatoolbox", "messages", "messageui", "metal",
+    "metalfx", "metalkit", "metalperformanceshaders", "metalperformanceshadersgraph",
+    "metrickit", "mlcompute", "mobilecoreservices", "modelio", "multipeerconnectivity",
+    "musickit", "naturallanguage", "nearbyinteraction", "network", "networkextension",
+    "newsstandkit", "notificationcenter", "openal", "opengles", "oslog", "passkit",
+    "pdfkit", "pencilkit", "phase", "photos", "photosui", "proximityreader", "pushkit",
+    "pushtotalk", "quartzcore", "quicklook", "quicklookthumbnailing", "realityfoundation", "realitykit",
+    "replaykit", "roomplan", "safariservices", "safetykit", "scenekit", "screentime",
+    "security", "sensorkit", "sharedwithyou", "sharedwithyoucore", "shazamkit", "social",
+    "soundanalysis", "speech", "spritekit", "storekit", "swiftui", "systemconfiguration",
+    "tabulardata", "threadnetwork", "twitter", "uikit", "uniformtypeidentifiers",
+    "usernotifications", "usernotificationsui", "videosubscriberaccount", "videotoolbox",
+    "vision", "visionkit", "watchconnectivity", "watchkit", "weatherkit", "webkit",
+    # All 1,830 private frameworks
+    "aaafoundation",
+    "aaafoundationswift",
+    "aaccore",
+    "abmhelper",
+    "accessibilityaudit",
+    "accessibilityfocusengine",
+    "accessibilityphysicalinteraction",
+    "accessibilityplatformtranslation",
+    "accessibilityremoteservices",
+    "accessibilityremoteuiservices",
+    "accessibilitysharedsupport",
+    "accessibilityshareduisupport",
+    "accessibilityui",
+    "accessibilityuiservice",
+    "accessibilityuishared",
+    "accessibilityuiutilities",
+    "accessibilityuiviewservices",
+    "accessibilityutilities",
+    "accessoryassistivetouch",
+    "accessoryaudio",
+    "accessoryblepairing",
+    "accessorycommunications",
+    "accessorycomponentauth",
+    "accessoryhid",
+    "accessoryiap2shim",
+    "accessorymedialibrary",
+    "accessorynavigation",
+    "accessorynowplaying",
+    "accessoryoobbtpairing",
+    "accessoryvoiceover",
+    "accountnotification",
+    "accountsdaemon",
+    "accountsui",
+    "acousticmaterials",
+    "actframework",
+    "actionkit",
+    "actionkitui",
+    "actionpredictionheuristics",
+    "actionpredictionheuristicsinternal",
+    "activityachievements",
+    "activityachievementsdaemon",
+    "activityachievementsui",
+    "activityawardsclient",
+    "activityawardscore",
+    "activityawardsservices",
+    "activityringsui",
+    "activitysharing",
+    "activitysharingui",
+    "activityuiservices",
+    "adcore",
+    "addressbooklegacy",
+    "adid",
+    "adminlite",
+    "adplatforms",
+    "adplatformscommon",
+    "adplatformscommonui",
+    "adplatformsinternal",
+    "afibburden",
+    "afkuser",
+    "aggregatedictionary",
+    "aggregatedictionaryhistory",
+    "agxcompilerconnections2a8",
+    "agxcompilercore",
+    "agxcompilercores2a8",
+    "agxgpurawcounter",
+    "aimlexperimentationanalytics",
+    "aimlinstrumentationstreams",
+    "airplaykit",
+    "airplayreceiver",
+    "airplayreceiverkit",
+    "airplayrouteprediction",
+    "airplaysender",
+    "airplaysupport",
+    "airplaysync",
+    "airportassistant",
+    "airtraffic",
+    "airtrafficdevice",
+    "algosscoreframework",
+    "altruisticbodyposekit",
+    "ampcoreui",
+    "anecompiler",
+    "aneservices",
+    "annotationkit",
+    "announce",
+    "announcedaemon",
+    "announcesiriextensions",
+    "anstkit",
+    "aophaptics",
+    "aoskit",
+    "apconfigurationsystem",
+    "apfoundation",
+    "apfs",
+    "apfsbootmount",
+    "appanalytics",
+    "appattestinternal",
+    "appc3d",
+    "appconduit",
+    "appleaccount",
+    "appleaccountui",
+    "applebasebandmanager",
+    "applebasebandservices",
+    "appleconvergedfirmwareupdater",
+    "applecv3d",
+    "applecv3dha",
+    "applecv3dmodels",
+    "applecv3dmovkit",
+    "applecva",
+    "applecvaphoto",
+    "applecvhwa",
+    "appledepth",
+    "appledepthcore",
+    "applefirmwareupdate",
+    "appleflatbuffers",
+    "applefscompression",
+    "applehidtransportsupport",
+    "appleidauthsupport",
+    "appleidssoauthentication",
+    "applejpeg",
+    "applekeystore",
+    "appleldap",
+    "applemediadiscovery",
+    "applemediaservices",
+    "applemediaservicesui",
+    "applemediaservicesuidynamic",
+    "applemediaservicesuipaymentsheets",
+    "applemobilefileintegrity",
+    "appleneuralengine",
+    "applenvme",
+    "applepdphelper",
+    "applephotondetectorservices",
+    "applepushservice",
+    "applesauce",
+    "appleservicetoolkit",
+    "applesrp",
+    "appletracingsupportsymbolication",
+    "appleuserconsent",
+    "appnotificationsloggingclient",
+    "apppredictionclient",
+    "apppredictionfoundation",
+    "apppredictioninternal",
+    "apppredictionui",
+    "apppredictionuifoundation",
+    "apppredictionuiwidget",
+    "appserversupport",
+    "appsso",
+    "appssocore",
+    "appssokerberos",
+    "appssoui",
+    "appstate",
+    "appstorecomponents",
+    "appstoredaemon",
+    "appstorefoundation",
+    "appstorekit",
+    "appstorekitinternal",
+    "appstoreoverlays",
+    "appstoreui",
+    "appsupport",
+    "appsupportui",
+    "aptransport",
+    "arkitcore",
+    "arkitfoundation",
+    "arkitui",
+    "aseprocessing",
+    "askpermission",
+    "asoctanesupport",
+    "assertionservices",
+    "assetcacheservices",
+    "assetcacheservicesextensions",
+    "assetexplorer",
+    "assetviewer",
+    "assistantcardservicesupport",
+    "assistantservices",
+    "assistantsettingssupport",
+    "assistantui",
+    "atfoundation",
+    "attentionawareness",
+    "attributegraph",
+    "audevelopersettings",
+    "audioanalytics",
+    "audiodataanalysis",
+    "audiogramingestion",
+    "audiopasscode",
+    "audioserverapplication",
+    "audioserverdriver",
+    "audiosession",
+    "audiosessionserver",
+    "audiotoolboxcore",
+    "audiotransportcommon",
+    "ausettings",
+    "authenticationservicescore",
+    "authkit",
+    "authkitui",
+    "autobugcapturecore",
+    "autoloop",
+    "automationmode",
+    "availabilitykit",
+    "avatarkit",
+    "avatarpersistence",
+    "avatarui",
+    "avconference",
+    "avfcapture",
+    "avfcore",
+    "axaggregatestatisticsservices",
+    "axassetloader",
+    "axcontainerservices",
+    "axcoreutilities",
+    "axelementinteraction",
+    "axfrontboardutils",
+    "axidsservices",
+    "axlocalizationcaptionservice",
+    "axmediautilities",
+    "axntkutilities",
+    "axruntime",
+    "axsounddetection",
+    "axsounddetectionui",
+    "axspeakfingermanager",
+    "axspeechassetservices",
+    "axspringboardserverinstance",
+    "axtaptospeaktime",
+    "axwatchremotescreenservices",
+    "axwatchremotescreenui",
+    "backboardhideventfoundation",
+    "backboardhideventprocessors",
+    "backboardservices",
+    "backgroundsystemtasks",
+    "backgroundtaskagent",
+    "backlightservices",
+    "backlightserviceshost",
+    "backlightuiservices",
+    "bagkit",
+    "bannerkit",
+    "barcodesupport",
+    "baseboard",
+    "baseboardui",
+    "batterycenter",
+    "batterycenterui",
+    "behaviorminer",
+    "biomedsl",
+    "biomeflexiblestorage",
+    "biomefoundation",
+    "biomelibrary",
+    "biomepubsub",
+    "biomesequence",
+    "biomestorage",
+    "biomestreams",
+    "biomesync",
+    "biometrickit",
+    "biometrickitui",
+    "biometricsupport",
+    "blastdoor",
+    "bluetoothaudio",
+    "bluetoothmanager",
+    "bluetoothservices",
+    "bluetoothservicesui",
+    "boardservices",
+    "bom",
+    "bookcoverutility",
+    "bookdatastore",
+    "bookfoundation",
+    "booklibrary",
+    "booklibrarycore",
+    "bookutility",
+    "brailletranslation",
+    "bridgecommons",
+    "bridgepreferences",
+    "bridgereporting",
+    "brightnesscontrol",
+    "brookdatacollection",
+    "brookservices",
+    "bulletinboard",
+    "bulletindistributorcompanion",
+    "businesschatservice",
+    "businessservices",
+    "businessservicesui",
+    "buttonresolver",
+    "c2",
+    "cachedelete",
+    "calculate",
+    "caldav",
+    "calendardaemon",
+    "calendardatabase",
+    "calendarfoundation",
+    "calendarlink",
+    "calendarmigration",
+    "calendarnotification",
+    "calendaruikit",
+    "calendarwidget",
+    "callhistory",
+    "cameracolorprocessing",
+    "cameraeditkit",
+    "cameraeffectskit",
+    "cameraimagingframework",
+    "camerakit",
+    "cameraui",
+    "captivenetwork",
+    "cardkit",
+    "cards",
+    "cardservices",
+    "carkit",
+    "carouselpreferenceservices",
+    "carp",
+    "carplayservices",
+    "carplaysupport",
+    "carplayui",
+    "carplayuiservices",
+    "catalyst",
+    "categories",
+    "caulk",
+    "cborlibrary",
+    "cddataaccess",
+    "cddataaccessexpress",
+    "cdmfoundation",
+    "celestial",
+    "cellularbridgeui",
+    "cellulardatadiagnosticssuite",
+    "cellularplanmanager",
+    "certinfo",
+    "certui",
+    "chatkit",
+    "checkerboardservices",
+    "chipplugin",
+    "chirp",
+    "chronocore",
+    "chronokit",
+    "chronoservices",
+    "chronouiservices",
+    "chunkinglibrary",
+    "cinematicframing",
+    "clarityfoundation",
+    "classkitui",
+    "classroomkit",
+    "clipservices",
+    "clipuiservices",
+    "clockcomplications",
+    "clockkitui",
+    "clouddocs",
+    "clouddocsdaemon",
+    "clouddocsui",
+    "cloudkitcode",
+    "cloudkitcodeprotobuf",
+    "cloudkitdaemon",
+    "cloudkitdistributedsync",
+    "cloudmediaservicesinterfacekit",
+    "cloudphotolibrary",
+    "cloudphotoservices",
+    "cloudservices",
+    "cloudsettings",
+    "cloudsharing",
+    "cloudsharingui",
+    "cloudsubscriptionfeatures",
+    "cmcapture",
+    "cmcapturecore",
+    "cmcontinuitycapturecore",
+    "cmimaging",
+    "cmphoto",
+    "cognitivehealth",
+    "coherence",
+    "coherencecloudkitprivate",
+    "collectionviewcore",
+    "combinecocoa",
+    "commandandcontrolui",
+    "commonauth",
+    "commonutilities",
+    "communicationsfilter",
+    "communicationssetupui",
+    "companionauthentication",
+    "companioncamera",
+    "companionhealthdaemon",
+    "companionsync",
+    "compassui",
+    "complicationdisplay",
+    "conditioninducer",
+    "configurationenginemodel",
+    "constantclasses",
+    "contactlessreaderui",
+    "contactsassistantservices",
+    "contactsautocomplete",
+    "contactsautocompleteui",
+    "contactsdonation",
+    "contactsdonationfeedback",
+    "contactsfoundation",
+    "contactsmetrics",
+    "contactsuicore",
+    "containermanagercommon",
+    "containermanagersystem",
+    "containermanageruser",
+    "contentkit",
+    "contextkit",
+    "contextkitcore",
+    "contextkitextraction",
+    "contextkitprediction",
+    "contextsync",
+    "contextualactionsclient",
+    "contextualunderstanding",
+    "continuousdialogmanagerservice",
+    "controlcenterservices",
+    "controlcenterui",
+    "controlcenteruikit",
+    "conversationkit",
+    "coordination",
+    "coordinationcore",
+    "copresencecore",
+    "coreaccessories",
+    "coreaccessoriesfeatures",
+    "coreanalytics",
+    "coreapplecva",
+    "coreauc",
+    "coreautolayout",
+    "corebluetoothui",
+    "corebrightness",
+    "corecapture",
+    "corecapturecontrol",
+    "corecapturedaemon",
+    "corecdp",
+    "corecdpinternal",
+    "corecdpui",
+    "corecdpuiinternal",
+    "corechart",
+    "corechartswift",
+    "coredav",
+    "coreduet",
+    "coreduetcontext",
+    "coreduetdaemonprotocol",
+    "coreduetsync",
+    "coreembeddedspeechrecognition",
+    "coreemoji",
+    "corefollowup",
+    "corefollowupui",
+    "coreglyphs",
+    "corehandwriting",
+    "corehap",
+    "coreidcred",
+    "coreidcredbuilder",
+    "coreidv",
+    "coreidvpad",
+    "coreidvrgbliveness",
+    "coreidvshared",
+    "coreidvui",
+    "coreik",
+    "coreindoor",
+    "coreknowledge",
+    "corelocationprotobuf",
+    "corelocationreplay",
+    "corematerial",
+    "coremediastream",
+    "coremotionalgorithms",
+    "coremotionmodels",
+    "corenameparser",
+    "corenavigation",
+    "corenlp",
+    "coreodi",
+    "coreodiessentials",
+    "coreoptimization",
+    "coreparsec",
+    "corepdf",
+    "corephonenumbers",
+    "coreprediction",
+    "corere",
+    "corerealityio",
+    "corerecents",
+    "corerecognition",
+    "corerepaircore",
+    "corerepairkit",
+    "corerepairlite",
+    "corerepairui",
+    "coreroutine",
+    "coresdb",
+    "coreservicesinternal",
+    "coreservicesstore",
+    "corespeech",
+    "corespeechfoundation",
+    "coresuggestions",
+    "coresuggestionsinternals",
+    "coresuggestionsml",
+    "coresuggestionsui",
+    "coresvg",
+    "coresymbolication",
+    "corethemedefinition",
+    "corethread",
+    "coretime",
+    "coreuarp",
+    "coreui",
+    "coreutils",
+    "coreutilsextras",
+    "coreutilsswift",
+    "coreutilsui",
+    "corewifi",
+    "cornobble",
+    "coversheet",
+    "coversheetkit",
+    "cpanalytics",
+    "cpmlbestshim",
+    "cpms",
+    "crashreportersupport",
+    "cryptokitcbridging",
+    "cryptokitprivate",
+    "ctcarrierspace",
+    "ctcarrierspaceui",
+    "cvnlp",
+    "daapkit",
+    "dacaldav",
+    "dacarddav",
+    "dacoredavglue",
+    "dadaemonsupport",
+    "daeas",
+    "daeasoauthframework",
+    "daimapnotes",
+    "daldap",
+    "dasdaemon",
+    "dasdelegate",
+    "dashboard",
+    "dasubcal",
+    "dataaccess",
+    "dataaccessexpress",
+    "dataaccessui",
+    "datadeliveryservices",
+    "datadetectorscore",
+    "datadetectorsnaturallanguage",
+    "datadetectorsui",
+    "datamigration",
+    "deepthought",
+    "depclientlibrary",
+    "desktopservicespriv",
+    "deu",
+    "deviceaccess",
+    "deviceactivityconductor",
+    "devicecheckinternal",
+    "devicediscoveryuicore",
+    "deviceidentity",
+    "devicemanagement",
+    "devicemanagementtools",
+    "deviceomatic",
+    "devicepresence",
+    "devicetodevicemanager",
+    "diagnosticextensions",
+    "diagnosticextensionsdaemon",
+    "diagnosticlogcollection",
+    "diagnosticrequest",
+    "diagnosticrequestservice",
+    "diagnosticskit",
+    "diagnosticsreporterservices",
+    "diagnosticssupport",
+    "dialogengine",
+    "dictionaryservices",
+    "dictionaryui",
+    "differentialprivacy",
+    "digitalaccess",
+    "digitalseparation",
+    "digitalseparationui",
+    "digitaltouchshared",
+    "disembark",
+    "disembarkui",
+    "diskarbitration",
+    "diskimages",
+    "diskimages2",
+    "diskspacediagnostics",
+    "displayandbrightnesssettings",
+    "distributedevaluation",
+    "distributedsensing",
+    "dmcenrollmentlibrary",
+    "dmcenrollmentprovider",
+    "dmctoolsuiutilities",
+    "dmcutilities",
+    "documentcamera",
+    "documentmanager",
+    "documentmanagercore",
+    "documentmanagerexecutables",
+    "documentmanageruicore",
+    "documentunderstanding",
+    "donotdisturb",
+    "donotdisturbkit",
+    "donotdisturbserver",
+    "dragui",
+    "drawingkit",
+    "drivermanagement",
+    "drmfoundation",
+    "dropin",
+    "dropincore",
+    "dsremotepairing",
+    "dtxconnectionservices",
+    "duetactivityscheduler",
+    "dvtinstrumentsfoundation",
+    "dvtinstrumentsutilities",
+    "eafirmwareupdater",
+    "eap8021x",
+    "easyconfig",
+    "eci",
+    "editscript",
+    "email",
+    "emailaddressing",
+    "emailcore",
+    "emaildaemon",
+    "emailfoundation",
+    "embeddedacousticrecognition",
+    "embeddeddatareset",
+    "emergencyalerts",
+    "emojifoundation",
+    "emojikit",
+    "emojiposter",
+    "eng",
+    "engram",
+    "enhancedloggingstate",
+    "enu",
+    "equationkit",
+    "esdaemonsupport",
+    "esm",
+    "esp",
+    "espresso",
+    "eventmetadataextractor",
+    "exchangesync",
+    "exchangesyncexpress",
+    "exposurenotificationdaemon",
+    "eyedropper",
+    "facecore",
+    "familycircle",
+    "familycircleui",
+    "familycontrolsobjc",
+    "familynotification",
+    "featureflags",
+    "featureflagssupport",
+    "featurestore",
+    "feedback",
+    "feedbackcore",
+    "feedbacklogger",
+    "fileproviderdaemon",
+    "filesactionsui",
+    "fin",
+    "financedaemon",
+    "financekit",
+    "financekitui",
+    "findmydevice",
+    "findmydeviceui",
+    "finhealth",
+    "fitness",
+    "fitnesscoaching",
+    "fitnesscoachingcore",
+    "fitnesscoachinghealthservices",
+    "fitnesscoachingservices",
+    "fitnessui",
+    "flexmusickit",
+    "flightutilities",
+    "flightutilitiescore",
+    "flowframekit",
+    "fluid",
+    "fmcore",
+    "fmcorelite",
+    "fmcoreui",
+    "fmf",
+    "fmfcore",
+    "fmfui",
+    "fmipcore",
+    "fmnetworking",
+    "fmprecisionfindingui",
+    "focus",
+    "focussettingsui",
+    "focusui",
+    "fontservices",
+    "foundationodr",
+    "foundinappsplugins",
+    "fra",
+    "frc",
+    "frc",
+    "friendkit",
+    "frontboard",
+    "frontboardservices",
+    "fsevents",
+    "ftawd",
+    "ftclientservices",
+    "ftservices",
+    "fusiontracker",
+    "futhark",
+    "gambit",
+    "gamecenterfoundation",
+    "gamecenterui",
+    "gamecenteruicore",
+    "gamecontrollerfoundation",
+    "gamecontrollersettings",
+    "gamekitservices",
+    "generalsettingsui",
+    "generationalstorage",
+    "geometry",
+    "geoservices",
+    "geoservicescore",
+    "gksperformance",
+    "gpurawcounter",
+    "gputoolscapture",
+    "gputoolsdiagnostics",
+    "gputoolstransport",
+    "gradientposter",
+    "graphicsservices",
+    "graphvisualizer",
+    "grdb",
+    "griddataservices",
+    "h10ispservices",
+    "h13ispservices",
+    "haenotifications",
+    "hangtracer",
+    "haptics",
+    "hardwarediagnostics",
+    "hdrprocessing",
+    "headphoneconfigs",
+    "headphonesettings",
+    "healthalgorithms",
+    "healthappservices",
+    "healthappsupport",
+    "healtharticlesgeneration",
+    "healtharticlesui",
+    "healthdaemon",
+    "healthdaemonfoundation",
+    "healthdiagnosticextensioncore",
+    "healthdomainstools",
+    "healthexperience",
+    "healthexperienceui",
+    "healthexposurenotificationui",
+    "healthhearing",
+    "healthhearingdaemon",
+    "healthmedications",
+    "healthmedicationsdaemonplugin",
+    "healthmedicationsexperience",
+    "healthmedicationsui",
+    "healthmedicationsvision",
+    "healthmedicationsvisionui",
+    "healthmedicationswidgetui",
+    "healthmenstrualcycles",
+    "healthmenstrualcyclesdaemon",
+    "healthmenstrualcyclesui",
+    "healthmobility",
+    "healthmobilitydaemon",
+    "healthmobilityui",
+    "healthplatform",
+    "healthplatformcore",
+    "healthpluginhost",
+    "healthrecordsconceptssupport",
+    "healthrecordsdaemon",
+    "healthrecordservices",
+    "healthrecordsextraction",
+    "healthrecordsui",
+    "healthrecordswalletsupport",
+    "healthtoolbox",
+    "healthui",
+    "healthvisualization",
+    "hearingcore",
+    "hearingmlhelper",
+    "hearingui",
+    "hearingutilities",
+    "hearthealth",
+    "hearthealthdaemon",
+    "heartrhythmui",
+    "heimdal",
+    "helpkit",
+    "herodataclient",
+    "hid",
+    "hidanalytics",
+    "hiddisplay",
+    "hidpreferences",
+    "hmfoundation",
+    "home",
+    "homeai",
+    "homeautomationinternal",
+    "homedevicesetup",
+    "homekitbackingstore",
+    "homekitdaemon",
+    "homekitdaemonlegacy",
+    "homekiteventrouter",
+    "homekitmatter",
+    "homekitmetrics",
+    "homemessagingutils",
+    "homeplatformsettingsui",
+    "homepodsettings",
+    "homerecommendationengine",
+    "homesharing",
+    "homeui",
+    "hovertextservices",
+    "hovertextui",
+    "hrtfenrollment",
+    "hsaauthentication",
+    "humanunderstandingevidence",
+    "humanunderstandingfoundation",
+    "iap",
+    "iapauthentication",
+    "icalendar",
+    "ice",
+    "iclouddrivecore",
+    "iclouddriveservice",
+    "icloudnotification",
+    "icloudquota",
+    "icloudquotaui",
+    "icloudsubscriptionoptimizerclient",
+    "icloudsubscriptionoptimizercore",
+    "icloudsubscriptionoptimizerdaemon",
+    "icloudsubscriptionoptimizerlighthouse",
+    "icloudsubscriptionoptimizerpfltraining",
+    "iconfoundation",
+    "iconservices",
+    "idletimerhosting",
+    "idletimerservices",
+    "ids",
+    "idsblastdoorsupport",
+    "idsfoundation",
+    "idshashpersistence",
+    "idskvstore",
+    "imap",
+    "imassistantcore",
+    "imavcore",
+    "imcore",
+    "imcorepipeline",
+    "imdaemoncore",
+    "imdmessageservices",
+    "imdpersistence",
+    "imessageapps",
+    "imfoundation",
+    "imsharedui",
+    "imsharedutilities",
+    "imtranscoderagent",
+    "imtranscoding",
+    "imtransferagent",
+    "imtransferservices",
+    "inappmessages",
+    "inappmessagescore",
+    "incomingcallfilter",
+    "inertiacam",
+    "infoquerypersonalizationfeatures",
+    "inputcontext",
+    "inputtranscoder",
+    "installcoordination",
+    "installedcontentlibrary",
+    "intelligenceengine",
+    "intelligenceplatform",
+    "intelligenceplatformcore",
+    "intentscore",
+    "intentsfoundation",
+    "intentsservices",
+    "intentsuicardkitprovidersupport",
+    "internalswiftprotobuf",
+    "internationalsupport",
+    "internationaltextsearch",
+    "intlpreferences",
+    "intlpreferencesui",
+    "io80211",
+    "ioaccelerator",
+    "ioaccelmemoryinfo",
+    "ioaccessorymanager",
+    "iogpu",
+    "ioimageloader",
+    "iokitten",
+    "iomobileframebuffer",
+    "iosdiagnostics",
+    "iosscreensharing",
+    "iosurfaceaccelerator",
+    "iousbhost",
+    "ispairplay",
+    "ita",
+    "itmlkit",
+    "itunescloud",
+    "itunesstore",
+    "itunesstoreui",
+    "iworkxpc",
+    "ixatestapprelay",
+    "jet",
+    "jetengine",
+    "jetengineswiftui",
+    "jetpack",
+    "jetui",
+    "jetuiswiftui",
+    "jitappkit",
+    "keyboardarbiter",
+    "keyboardservices",
+    "keyboardsettingsfeedback",
+    "keychaincircle",
+    "keynotequicklook",
+    "knowledgegraphkit",
+    "knowledgemonitor",
+    "koa",
+    "koamapper",
+    "kperf",
+    "kperfdata",
+    "krexperiments",
+    "ktrace",
+    "languagemodeling",
+    "latentsemanticmapping",
+    "learnedfeatures",
+    "legacygamekit",
+    "legacyhandle",
+    "legalandregulatorysettingsprivate",
+    "lexicon",
+    "libangleshared",
+    "libcomposefilters",
+    "libedr",
+    "libfontparser",
+    "libgpucompiler",
+    "libgpucompilerimpl",
+    "libgpucompilerimpllazy",
+    "libgpucompilerutils",
+    "libgpusupportmercury",
+    "libgsfont",
+    "libgsfontcache",
+    "libhvf",
+    "libiptelephony",
+    "liblivefilesplugindummy",
+    "libmtlcompilerhelper",
+    "libortools",
+    "libsessionutility",
+    "libtype1scaler",
+    "libvfxcore",
+    "libvoicedtts",
+    "libwebrtc",
+    "liftui",
+    "lighthousebitacoraframework",
+    "lighthousecoremlfeaturestore",
+    "lighthousecoremlmodelanalysis",
+    "lighthousecoremlmodelstore",
+    "lighthousedictation",
+    "lighthousemodelmonitoring",
+    "lighthousenightingale",
+    "lighthousereferenceresolution",
+    "lighthouseruntime",
+    "limitadtracking",
+    "linguisticdata",
+    "linkmanifesttools",
+    "linkmetadata",
+    "linkservices",
+    "liveexecutionresultsfoundation",
+    "liveexecutionresultsprobe",
+    "liveexecutionresultsruntime",
+    "livefilesapfs",
+    "livefilescs",
+    "livefilesexfat",
+    "livefileshfs",
+    "livefilesmsdos",
+    "livefilesntfs",
+    "livefs",
+    "livefsfphelper",
+    "livetranscription",
+    "localauthenticationprivateui",
+    "localspeechrecognitionbridge",
+    "locationsupport",
+    "lockoutui",
+    "loggingsupport",
+    "loginkit",
+    "loginperformancekit",
+    "loginuilogviewer",
+    "loopkitgeneratedkernels",
+    "lowpowermode",
+    "macintalk",
+    "magnifiersupport",
+    "mailkit",
+    "mailservices",
+    "mailsupport",
+    "mailui",
+    "mailwebprocesssupport",
+    "mallocstacklogging",
+    "managedconfiguration",
+    "managedconfigurationui",
+    "managedevent",
+    "managedsettingsobjc",
+    "managedsettingssupport",
+    "mapssuggestions",
+    "mapssupport",
+    "mapssync",
+    "mapsui",
+    "marco",
+    "markupui",
+    "marrs",
+    "materialkit",
+    "mdm",
+    "mdmclientlibrary",
+    "measurefoundation",
+    "mediaanalysis",
+    "mediaanalysisservices",
+    "mediacontrols",
+    "mediacontrolsender",
+    "mediaconversionservice",
+    "mediacoreui",
+    "mediaexperience",
+    "mediafoundation",
+    "mediagroups",
+    "mediagroupsdaemon",
+    "mediakit",
+    "medialibrarycore",
+    "mediaminingkit",
+    "mediaplatform",
+    "mediaplaybackcore",
+    "mediaplayerui",
+    "mediaremote",
+    "mediaremotedaemonservices",
+    "mediasafetynet",
+    "mediaservices",
+    "mediaservicesbroker",
+    "mediastream",
+    "memorydiagnostics",
+    "menstrualalgorithmsinternal",
+    "mercury",
+    "message",
+    "messagelegacy",
+    "messageprotection",
+    "messagesblastdoorsupport",
+    "messagescloudsync",
+    "messagesecurity",
+    "messagessupport",
+    "messagesupport",
+    "metadatautilities",
+    "metaltools",
+    "metrickitcore",
+    "metrickitservices",
+    "metrickitsource",
+    "metricmeasurement",
+    "metricskit",
+    "mfaauthentication",
+    "migrationkit",
+    "mil",
+    "milaneflow",
+    "mime",
+    "mlassetio",
+    "mlkit",
+    "mlruntime",
+    "mmcs",
+    "mmcsservices",
+    "mobileaccessoryupdater",
+    "mobileactivation",
+    "mobileasset",
+    "mobileassetupdater",
+    "mobilebackup",
+    "mobilebluetooth",
+    "mobilecontainermanager",
+    "mobiledevicelink",
+    "mobileicons",
+    "mobileinboxupdate",
+    "mobileinstallation",
+    "mobilekeybag",
+    "mobilelookup",
+    "mobilemailui",
+    "mobileobliteration",
+    "mobilesafari",
+    "mobilesafariswift",
+    "mobilesafariui",
+    "mobilesoftwareupdate",
+    "mobilespotlightindex",
+    "mobilestorage",
+    "mobilestoredemokit",
+    "mobilestoredemosetupui",
+    "mobilesync",
+    "mobilesystemservices",
+    "mobiletimer",
+    "mobiletimersupport",
+    "mobiletimerui",
+    "mobilewifi",
+    "moments2",
+    "montreal",
+    "morphunassets",
+    "morphunswift",
+    "motionsensorlogging",
+    "movstreamio",
+    "mpufoundation",
+    "msudataaccessor",
+    "mtlcompiler",
+    "mtlspline",
+    "multitouchsessionfiltersupport",
+    "multitouchsupport",
+    "musiccardisplayui",
+    "musickitinternal",
+    "musickitinternalmediaplaybackcore",
+    "musickitinternalmediaplayer",
+    "musickitinternalswiftui",
+    "musiclibrary",
+    "musicsettingssupport",
+    "musicstoreui",
+    "musicui",
+    "nanoappregistry",
+    "nanoaudiocontrol",
+    "nanobackup",
+    "nanocomplicationsettings",
+    "nanoleash",
+    "nanomailcompanionui",
+    "nanomailkitserver",
+    "nanomediaapi",
+    "nanomediabridgeui",
+    "nanomediaremote",
+    "nanomusicsync",
+    "nanopasskit",
+    "nanophotoscore",
+    "nanopreferencessync",
+    "nanoregistry",
+    "nanoresourcegrabber",
+    "nanosystemsettings",
+    "nanotimekit",
+    "nanotimekitcompanion",
+    "nanouniverse",
+    "nanoweathercomplicationscompanion",
+    "nanoweatherkituicompanion",
+    "navigation",
+    "nclaunchstats",
+    "nearfield",
+    "nearfieldaccessory",
+    "netappsutilities",
+    "netappsutilitiesui",
+    "netrb",
+    "networkrelay",
+    "networkserviceproxy",
+    "networkstatistics",
+    "neutrinocore",
+    "neutrinokit",
+    "newdeviceoutreach",
+    "newdeviceoutreachui",
+    "newsads",
+    "newsanalytics",
+    "newsanalyticsupload",
+    "newsarticles",
+    "newscore",
+    "newsdaemon",
+    "newsengagement",
+    "newsengagementcollector",
+    "newsfeed",
+    "newsfoundation",
+    "newskit",
+    "newspersonalization",
+    "newsservices",
+    "newsservicesinternal",
+    "newssubscription",
+    "newstoday",
+    "newstransport",
+    "newsui",
+    "newsui2",
+    "newsurlbucket",
+    "newsurlresolution",
+    "nexus",
+    "nlp",
+    "nlplearner",
+    "nonverbalcues",
+    "notes",
+    "notesanalytics",
+    "noteseditor",
+    "notespreviewkit",
+    "notesshared",
+    "notessupport",
+    "notesui",
+    "notthestorekituiframeworkyouarelookingfor",
+    "nptkit",
+    "numbersquicklook",
+    "oauth",
+    "objectunderstanding",
+    "octagontrust",
+    "odcurareanalysis",
+    "odcurareevaluationandreporting",
+    "officeimport",
+    "onboardingkit",
+    "oncrpc",
+    "opticalflowframework",
+    "opusfoundation",
+    "opuskit",
+    "osanalytics",
+    "osanalyticsprivate",
+    "osaservicesclient",
+    "osasubmissionclient",
+    "osasyncproxyclient",
+    "osintelligence",
+    "osprey",
+    "otsvg",
+    "packetfilter",
+    "pagesquicklook",
+    "pairedsync",
+    "pairedunlock",
+    "pairingproximity",
+    "paperboardui",
+    "paperkit",
+    "paravirtualizedane",
+    "parsecmodel",
+    "parsecsubscriptionservicesupport",
+    "passkitcore",
+    "passkitservices",
+    "passkitui",
+    "passkituifoundation",
+    "pasteboard",
+    "paymentui",
+    "paymentuibase",
+    "pbbridgesupport",
+    "pds",
+    "pdsagent",
+    "pegasus",
+    "pegasusapi",
+    "pegasusconfiguration",
+    "pegasuskit",
+    "pegasuspersistence",
+    "pencilpairingui",
+    "people",
+    "peoplesuggester",
+    "peopleui",
+    "peopleuiinternal",
+    "perfdata",
+    "performancetrace",
+    "perfpowertelemetrymetadata",
+    "perfpowertelemetryreader",
+    "persistentconnection",
+    "personakit",
+    "personalaudio",
+    "personalintelligencecore",
+    "personalizationportrait",
+    "personalizationportraitinternals",
+    "personalunderstanding",
+    "personaui",
+    "phoenix",
+    "phonenumberresolver",
+    "phonenumbers",
+    "photoanalysis",
+    "photobootheffects",
+    "photofoundation",
+    "photoimaging",
+    "photolibrary",
+    "photolibraryservices",
+    "photolibraryservicescore",
+    "photosensitivityprocessing",
+    "photosformats",
+    "photosgraph",
+    "photosimagingfoundation",
+    "photosplayer",
+    "photosuiapps",
+    "photosuicore",
+    "photosuiedit",
+    "photosuiprivate",
+    "photovision",
+    "physicskit",
+    "placeskit",
+    "platformsso",
+    "platterkit",
+    "plsnapshot",
+    "pluginkit",
+    "podcastsfoundation",
+    "podcastskit",
+    "podcastsui",
+    "pointeruiservices",
+    "pointeruisystemservices",
+    "pop",
+    "portrait",
+    "portraitcore",
+    "posterboard",
+    "posterboardservices",
+    "posterboardui",
+    "posterkit",
+    "postsiriengagement",
+    "powerlog",
+    "powerlogaccounting",
+    "powerlogcontrol",
+    "powerlogcore",
+    "powerlogdatabasereader",
+    "powerlogfulloperators",
+    "powerloghelperdoperators",
+    "powerlogliteoperators",
+    "powerui",
+    "preferences",
+    "preferencesui",
+    "previewsfoundation",
+    "previewshellkit",
+    "previewsinjection",
+    "previewsmessaging",
+    "previewsossupport",
+    "previewsossupportui",
+    "previewsservices",
+    "previewsservicesui",
+    "prideposter",
+    "printkit",
+    "printkitui",
+    "privacyaccounting",
+    "privacydisclosurecore",
+    "privacydisclosureui",
+    "privacysettingsui",
+    "privatefederatedlearning",
+    "privatesearchclient",
+    "privatesearchcore",
+    "privatesearchprotocols",
+    "proactiveblendinglayerios",
+    "proactivecdndownloader",
+    "proactivecontextclient",
+    "proactiveeventtracker",
+    "proactiveexperiments",
+    "proactiveexperimentsinternals",
+    "proactiveharvesting",
+    "proactiveinputpredictions",
+    "proactiveinputpredictionsinternals",
+    "proactiveinsights",
+    "proactivemagicalmoments",
+    "proactiveml",
+    "proactivesharesheetdataharvestinglighthouse",
+    "proactivesharesheetlocaltrainer",
+    "proactivesuggestionclientmodel",
+    "proactivesupport",
+    "proactivesupportstubs",
+    "productkit",
+    "profilevalidatedappidentity",
+    "progressui",
+    "promotedcontent",
+    "promotedcontentprediction",
+    "promotedcontentproxy",
+    "promotedcontentsupport",
+    "promotedcontentui",
+    "proofreader",
+    "protectedcloudstorage",
+    "protocolbuffer",
+    "prototypetools",
+    "prototypetoolsui",
+    "provideo",
+    "proxcardkit",
+    "proximity",
+    "proximityappleidsetup",
+    "proximityappleidsetupui",
+    "proximitycontrol",
+    "proximityui",
+    "ptb",
+    "qlcharts",
+    "quagga",
+    "queryparser",
+    "quicklooksupport",
+    "quicklookthumbnailgeneration",
+    "quicklookthumbnailingdaemon",
+    "quicklookuicore",
+    "radio",
+    "rapport",
+    "rapportui",
+    "realityfusion",
+    "realityio",
+    "recap",
+    "recapperformancetesting",
+    "recon3d",
+    "regulatorydomain",
+    "relativemotion",
+    "relevanceengine",
+    "relevanceengineui",
+    "reminderkit",
+    "reminderkitinternal",
+    "reminderkitui",
+    "remindersuicore",
+    "remoteconfiguration",
+    "remotecoreml",
+    "remotehid",
+    "remotemanagement",
+    "remotemanagementmodel",
+    "remotemanagementprotocol",
+    "remotemanagementstore",
+    "remotemanagementui",
+    "remotemediaservices",
+    "remotepairingdevice",
+    "remoteservicediscovery",
+    "remotestatedumpkit",
+    "remotetextinput",
+    "remoteui",
+    "remotexpc",
+    "renderbox",
+    "reportingplugin",
+    "requestdispatcherbridges",
+    "respiratoryhealth",
+    "respiratoryhealthdaemon",
+    "respiratoryhealthui",
+    "responsekit",
+    "resync",
+    "revealcore",
+    "rtbuddycrashlogdecoder",
+    "rtcreporting",
+    "rttui",
+    "rttutilities",
+    "runningboard",
+    "runningboardservices",
+    "safari",
+    "safaricore",
+    "safarifoundation",
+    "safarisafebrowsing",
+    "safarishared",
+    "safarisharedui",
+    "safetyalerts",
+    "saml",
+    "sampleanalysis",
+    "saobjects",
+    "savagecaminterface",
+    "sceneintelligence",
+    "schooltime",
+    "schooltimesettingsui",
+    "screenreaderbrailledriver",
+    "screenreadercore",
+    "screenreaderoutput",
+    "screenshotservices",
+    "screentimecore",
+    "screentimefoundation",
+    "screentimesettingsui",
+    "screentimeui",
+    "screentimeuicore",
+    "sdapi",
+    "search",
+    "searchads",
+    "searchfoundation",
+    "searchtosharecore",
+    "searchui",
+    "searchuicardkitprovidersupport",
+    "securechannel",
+    "securetransactionservice",
+    "securityfoundation",
+    "seeding",
+    "sensorkithelper",
+    "sensorkitsupport",
+    "sensorkitui",
+    "sentencepiece",
+    "sentry",
+    "separationalerts",
+    "servicemanagement",
+    "seservice",
+    "sessionalert",
+    "sessionassertion",
+    "sessioncore",
+    "sessionfoundation",
+    "sessionpushnotifications",
+    "sessionsql",
+    "sessionsyncengine",
+    "settings",
+    "settingscellular",
+    "settingscellularui",
+    "settingsfoundation",
+    "settingsuikit",
+    "settingsuikitprivate",
+    "setupassistant",
+    "setupassistantsupport",
+    "setupassistantui",
+    "setupkit",
+    "seymourclient",
+    "seymourcore",
+    "seymourmedia",
+    "seymourserverprotocol",
+    "seymourservices",
+    "seymourui",
+    "sfsymbols",
+    "sharedwebcredentials",
+    "sharesheet",
+    "sharing",
+    "sharinghud",
+    "sharingui",
+    "sharingxpcservices",
+    "shazamcore",
+    "shazamevents",
+    "shazaminsights",
+    "shazamkitui",
+    "shortcutuikit",
+    "sidecarcore",
+    "sidecarui",
+    "signalcompression",
+    "signpostcollection",
+    "signpostmetrics",
+    "signpostnotification",
+    "signpostsupport",
+    "silex",
+    "silexvideo",
+    "silexweb",
+    "simplekeyexchange",
+    "simsetupsupport",
+    "simtoolkitui",
+    "siriactivation",
+    "sirianalytics",
+    "siriapplaunchintents",
+    "siriappresolution",
+    "siriaudiointentutils",
+    "siriaudiointernal",
+    "siriaudiosupport",
+    "siricalendarintents",
+    "siricam",
+    "siricarcommandsintents",
+    "siricontactsintents",
+    "siricore",
+    "siricorrections",
+    "siricrossdevicearbitrationfeedback",
+    "siridailybriefinginternal",
+    "siridialogengine",
+    "siriemergencyintents",
+    "siriexpanseinternal",
+    "sirifindmy",
+    "siriflowenvironment",
+    "sirigeo",
+    "siriidentityinternal",
+    "siriincall",
+    "siriinference",
+    "siriinferenceflow",
+    "siriinferenceintents",
+    "siriinferredhelpfulness",
+    "siriinformationsearch",
+    "siriinformationtypes",
+    "siriinstrumentation",
+    "siriintentevents",
+    "siriinvocationanalytics",
+    "sirikitflow",
+    "sirikitinvocation",
+    "sirikitruntime",
+    "siriliminal",
+    "sirilinkdatatools",
+    "sirimemorytypes",
+    "sirimessagebus",
+    "sirimodes",
+    "sirinaturallanguagegeneration",
+    "sirinaturallanguageparsing",
+    "sirinluoverrides",
+    "sirinlutypes",
+    "sirinotebook",
+    "sirinotificationsintents",
+    "siriobservation",
+    "siriontology",
+    "siriontologyprotobuf",
+    "siriplaybackcontrolintents",
+    "siriplaybackcontrolsupport",
+    "siripowerinstrumentation",
+    "siriprivatelearninganalytics",
+    "siriprivatelearninginference",
+    "siriprivatelearninglogging",
+    "sirireferenceresolution",
+    "sirireferenceresolutiondatamodel",
+    "sirireferenceresolver",
+    "siriremembers",
+    "sirirequestdispatcher",
+    "sirisettingsintents",
+    "sirisetup",
+    "sirisharedui",
+    "sirisignals",
+    "sirisocialconversation",
+    "sirispeechsynthesis",
+    "siristates",
+    "sirisuggestions",
+    "sirisuggestionsapi",
+    "sirisuggestionskit",
+    "sirisuggestionssupport",
+    "sirisystemcommandsintents",
+    "siritaskengagement",
+    "siritasks",
+    "siritasksevaluation",
+    "siritimeinternal",
+    "siritranslationintents",
+    "siritts",
+    "sirittsservice",
+    "siriui",
+    "siriuiactivation",
+    "siriuicardkitprovidersupport",
+    "siriuicore",
+    "siriuifoundation",
+    "siriutilities",
+    "sirivideointents",
+    "sirivirtualdeviceresolution",
+    "sirivox",
+    "siriwellnessintents",
+    "sleep",
+    "sleepdaemon",
+    "sleephealth",
+    "sleephealthdaemon",
+    "sleephealthui",
+    "sleepwidgetui",
+    "slideshowkit",
+    "smartreplies",
+    "smbclientengine",
+    "smbclientprovider",
+    "smbsearch",
+    "snatmap",
+    "snippetcommands",
+    "snippetkit",
+    "snippetui",
+    "sociallayer",
+    "socialservices",
+    "softlinking",
+    "softposreader",
+    "softwareupdatebridge",
+    "softwareupdatecore",
+    "softwareupdatecoreconnect",
+    "softwareupdatecoresupport",
+    "softwareupdateservices",
+    "softwareupdateservicesui",
+    "softwareupdatesettings",
+    "softwareupdatesettingsui",
+    "sos",
+    "soundautoconfig",
+    "soundboardservices",
+    "soundsandhapticssettings",
+    "soundscapesutility",
+    "speakerrecognition",
+    "speakthisservices",
+    "speaktypingservices",
+    "speechdetector",
+    "speechdictionary",
+    "speechrecognitioncommandandcontrol",
+    "speechrecognitioncommandservices",
+    "speechrecognitioncore",
+    "spfinder",
+    "splashboard",
+    "sportskit",
+    "spotlight",
+    "spotlightdaemon",
+    "spotlightfoundation",
+    "spotlightlinguistics",
+    "spotlightreceiver",
+    "spotlightservices",
+    "spotlightui",
+    "spotlightuiinternal",
+    "spotlightuishared",
+    "spowner",
+    "springboard",
+    "springboardfoundation",
+    "springboardhome",
+    "springboardservices",
+    "springboardui",
+    "springboarduiservices",
+    "spshared",
+    "ssmlservices",
+    "stateful",
+    "statuskit",
+    "statuskitagentcore",
+    "stocks",
+    "stocksanalytics",
+    "stockscore",
+    "stockskit",
+    "stocksui",
+    "storagedata",
+    "storagekit",
+    "storagesettings",
+    "storebookkeeper",
+    "storebookkeeperclient",
+    "storekitui",
+    "storeservices",
+    "streamingextractor",
+    "streamingzip",
+    "strokeanimation",
+    "stsxpchelperclient",
+    "studylog",
+    "suggestionsspotlightmetrics",
+    "swiftnn",
+    "symbolication",
+    "symptomanalytics",
+    "symptomdiagnosticreporter",
+    "symptomevaluator",
+    "symptomnetworkusage",
+    "symptompresentationfeed",
+    "symptompresentationlite",
+    "symptomreporter",
+    "synapse",
+    "synceddefaults",
+    "syncedmodels",
+    "systemaperture",
+    "systemapertureui",
+    "systempaperpresentation",
+    "systemstatus",
+    "systemstatusserver",
+    "systemstatusui",
+    "systemwake",
+    "tailspinsymbolication",
+    "tcc",
+    "teacharts",
+    "teadb",
+    "teafoundation",
+    "teasettings",
+    "teasnappy",
+    "teatemplate",
+    "teaui",
+    "teauikit",
+    "telephonypreferences",
+    "telephonyrpc",
+    "telephonyui",
+    "telephonyutilities",
+    "telephonyxpcclient",
+    "telephonyxpcserver",
+    "templatekit",
+    "testflightcore",
+    "textcomposer",
+    "textinput",
+    "textinputchinese",
+    "textinputcore",
+    "textinputtestingkit",
+    "textinputui",
+    "textrecognition",
+    "texttospeech",
+    "texttospeechbundlesupport",
+    "texttospeechkonasupport",
+    "texttospeechmauisupport",
+    "textureio",
+    "timeline",
+    "timesync",
+    "tincanshared",
+    "tipkit",
+    "tipkit2",
+    "tipscore",
+    "tipscore2",
+    "tipsdaemon",
+    "tipsui",
+    "tipsui2",
+    "tonekit",
+    "tonelibrary",
+    "touchml",
+    "touchremote",
+    "tqquicklook",
+    "trackingavoidance",
+    "translation",
+    "translationui",
+    "translationuiservices",
+    "transliteration",
+    "transparency",
+    "transparencydetailsview",
+    "trial",
+    "trialproto",
+    "trialserver",
+    "trustedpeers",
+    "tsapplication",
+    "tscalculationengine",
+    "tscharts",
+    "tsdrawables",
+    "tskit",
+    "tspersistence",
+    "tsreading",
+    "tsstyles",
+    "tstables",
+    "tstext",
+    "tsutility",
+    "ttsasset",
+    "turicore",
+    "tvlatency",
+    "tvmlkit",
+    "tvplayback",
+    "tvremotecore",
+    "tvremoteui",
+    "tvuikit",
+    "typistframework",
+    "typologyaccess",
+    "uaaplinktools",
+    "uarpicloud",
+    "uarpupdaterservice",
+    "uiaccessibility",
+    "uifoundation",
+    "uikitcore",
+    "uikitservices",
+    "uitriggervc",
+    "unifiedassetframework",
+    "unityposter",
+    "urlcompression",
+    "urlformatting",
+    "usagetracking",
+    "usdkit",
+    "usdlibformatloaderproxy",
+    "useractivity",
+    "useralerts",
+    "userfs",
+    "usermanagement",
+    "usermanagementui",
+    "usernotificationskit",
+    "usernotificationsserver",
+    "usernotificationssettings",
+    "usernotificationstranslation",
+    "usernotificationsuikit",
+    "uvfsxpcservice",
+    "vcard",
+    "vdafvdaf",
+    "vectorkit",
+    "vfx",
+    "viceroytrace",
+    "videoprocessing",
+    "videosubscriberaccountui",
+    "videosui",
+    "videosuicore",
+    "videotoolboxparavirtualizationsupport",
+    "virtualgarage",
+    "visagehrtf",
+    "visioncore",
+    "visionhwaccelerationservices",
+    "visionkitcore",
+    "visualalert",
+    "visualintelligence",
+    "visuallocalization",
+    "visuallogger",
+    "visualpairing",
+    "visualvoicemail",
+    "voicemailstore",
+    "voicememos",
+    "voiceoverservices",
+    "voiceservices",
+    "voiceshortcutclient",
+    "voiceshortcuts",
+    "voiceshortcutsuicardkitprovidersupport",
+    "voicetrigger",
+    "voicetriggerui",
+    "wallpaperkit",
+    "wallpapersettings",
+    "watchcontrolassets",
+    "watchcontrolsettings",
+    "watchdogclient",
+    "watchfaceswallpapersupport",
+    "watchlistkit",
+    "watchquickactionsservices",
+    "watchreplies",
+    "weather",
+    "weatheranalytics",
+    "weathercore",
+    "weatherdaemon",
+    "weatherfoundation",
+    "weathermaps",
+    "weatherui",
+    "webapp",
+    "webbookmarks",
+    "webbookmarksswift",
+    "webcontentanalysis",
+    "webcontentrestrictions",
+    "webcore",
+    "webgpu",
+    "webinspector",
+    "webkitlegacy",
+    "websheet",
+    "webui",
+    "welcomekit",
+    "welcomekitcore",
+    "welcomekitui",
+    "widgetpreviewsextensionagent",
+    "widgetpreviewssupport",
+    "widgets",
+    "wifianalytics",
+    "wificloudsyncengine",
+    "wifikit",
+    "wifikitui",
+    "wifilogcapture",
+    "wifipeertopeer",
+    "wifipolicy",
+    "wifivelocity",
+    "wirelesscoexmanager",
+    "wirelessdiagnostics",
+    "wirelessproximity",
+    "workfloweditor",
+    "workflowkit",
+    "workflowui",
+    "workflowuicore",
+    "workflowuiservices",
+    "workoutcore",
+    "workouthealthbridge",
+    "wpdaemon",
+    "xaviercore",
+    "xaviernews",
+    "xcttargetbootstrap",
+    "xgboostframework",
+    "zhugesupport",
+    "zoomservices"
+]
 
 [package.metadata.docs.rs]
 features = []

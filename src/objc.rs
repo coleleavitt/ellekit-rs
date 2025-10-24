@@ -2,7 +2,6 @@
 
 use crate::error::{Error, Result};
 use core::ffi::c_char;
-use core::ptr;
 use ellekit_sys::{
     objc_class, objc_selector, LBHookMessage, MSHookClassPair, MSHookIvar, MSHookMessageEx, IMP,
 };
@@ -43,14 +42,14 @@ impl MessageHook {
         selector: *const objc_selector,
         replacement: IMP,
     ) -> Result<Self> {
-        if class.is_null() || selector.is_null() || replacement.is_null() {
+        if class.is_null() || selector.is_null() || replacement.is_none() {
             return Err(Error::NullPointer);
         }
 
-        let mut original: IMP = ptr::null_mut();
+        let mut original: IMP = None;
         MSHookMessageEx(class, selector, replacement, &mut original);
 
-        if original.is_null() {
+        if original.is_none() {
             return Err(Error::Other("Message hook failed"));
         }
 
@@ -67,14 +66,14 @@ impl MessageHook {
         selector: *mut objc_selector,
         replacement: IMP,
     ) -> Result<Self> {
-        if class.is_null() || selector.is_null() || replacement.is_null() {
+        if class.is_null() || selector.is_null() || replacement.is_none() {
             return Err(Error::NullPointer);
         }
 
-        let mut original: IMP = ptr::null_mut();
+        let mut original: IMP = None;
         LBHookMessage(class, selector, replacement, &mut original);
 
-        if original.is_null() {
+        if original.is_none() {
             return Err(Error::Other("Message hook failed"));
         }
 
@@ -220,12 +219,13 @@ pub mod class {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use core::ptr;
 
     #[test]
     fn test_message_hook_null_checks() {
         unsafe {
             let result =
-                MessageHook::hook_message_ex(ptr::null_mut(), ptr::null(), ptr::null_mut());
+                MessageHook::hook_message_ex(ptr::null_mut(), ptr::null(), None);
             assert!(result.is_err());
             assert_eq!(result.unwrap_err(), Error::NullPointer);
         }

@@ -92,8 +92,6 @@ pub fn get_codesign_status_for_pid(pid: i32) -> Result<CodeSignStatus> {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
     fn test_get_codesign_status() {
         // This test will only work on macOS/iOS
