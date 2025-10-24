@@ -1,0 +1,29 @@
+[package]
+name = "ellekit-sys"
+version = "0.1.0"
+edition = "2021"
+authors = ["Cole <cole@example.com>"]
+license = "MIT OR Apache-2.0"
+description = "Unsafe Rust FFI bindings to ElleKit, a modern iOS/macOS hooking framework"
+repository = "https://github.com/yourusername/ellekit-rs"
+keywords = ["ios", "macos", "hooking", "jailbreak", "ffi"]
+categories = ["external-ffi-bindings", "os::macos-apis"]
+links = "ellekit"
+
+[dependencies]
+
+[build-dependencies]
+bindgen = "0.69"
+
+[features]
+# Generate bindings at build time (requires clang)
+# If disabled, uses pre-generated bindings
+generate-bindings = []
+
+# Link against the actual ElleKit library (only available on jailbroken iOS/macOS)
+# Without this feature, symbols are declared but not linked (header-only mode)
+runtime = []
+
+[package.metadata.docs.rs]
+# Don't try to generate bindings on docs.rs
+features = []

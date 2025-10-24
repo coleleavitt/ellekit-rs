@@ -1,0 +1,17 @@
+/target/
+**/*.rs.bk
+*.pdb
+ellekit-sys/src/bindings.rs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.dylib
+*.so
+*.a
+*.o
+*.profraw
+*.profdata
+*.md

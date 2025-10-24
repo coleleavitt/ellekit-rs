@@ -1,0 +1,3 @@
+[submodule "submodules/ellekit"]
+	path = submodules/ellekit
+	url = https://github.com/evelyneee/ellekit.git

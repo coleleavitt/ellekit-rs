@@ -1,0 +1,33 @@
+[workspace]
+resolver = "2"
+members = ["ellekit-sys"]
+
+[package]
+name = "ellekit"
+version = "0.1.0"
+edition = "2021"
+authors = ["Cole <cole@unwrap.rs>"]
+license = "MIT OR Apache-2.0"
+description = "Safe Rust bindings to ElleKit, a modern iOS/macOS hooking framework"
+repository = "https://github.com/coleleavitt/ellekit-rs"
+keywords = ["ios", "macos", "hooking", "jailbreak", "tweak"]
+categories = ["api-bindings", "os::macos-apis"]
+
+[dependencies]
+ellekit-sys = { path = "ellekit-sys", version = "0.1.0" }
+thiserror = { version = "2.0", default-features = false }
+
+[dev-dependencies]
+# For integration tests that need runtime constructor support
+ctor = "0.2"
+# For accessing libc symbols in tests
+libc = "0.2"
+
+[features]
+default = []
+# Feature flag for tests that require actual hooking capability
+jailbroken = []
+
+[package.metadata.docs.rs]
+# Documentation configuration
+targets = ["aarch64-apple-ios", "aarch64-apple-darwin"]

@@ -1,0 +1,22 @@
+# Cargo configuration for iOS/macOS cross-compilation
+
+[build]
+# Default target for iOS development
+# target = "aarch64-apple-ios"
+
+[target.aarch64-apple-ios]
+# Linker for iOS
+linker = "clang"
+
+[target.aarch64-apple-darwin]
+# Linker for macOS ARM64
+linker = "clang"
+
+[target.x86_64-apple-darwin]
+# Linker for macOS x86_64
+linker = "clang"
+
+# Environment variables for bindgen
+[env]
+# Point bindgen to iOS SDK headers (adjust path as needed)
+# BINDGEN_EXTRA_CLANG_ARGS = "-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk"
