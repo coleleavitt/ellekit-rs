@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["ellekit-sys"]
+members = ["ellekit-sys", "ios-sys"]
 
 [package]
 name = "ellekit"

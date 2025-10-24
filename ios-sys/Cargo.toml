@@ -1,0 +1,39 @@
+[package]
+name = "ios-sys"
+version = "0.1.0"
+edition = "2021"
+authors = ["Cole <cole@unwrap.rs>"]
+license = "MIT OR Apache-2.0"
+description = "Low-level FFI bindings to iOS frameworks and APIs"
+repository = "https://github.com/yourusername/ellekit-rs"
+keywords = ["ios", "macos", "ffi", "objective-c", "cocoa"]
+categories = ["external-ffi-bindings", "os::macos-apis"]
+links = "ios-frameworks"
+
+[dependencies]
+
+[build-dependencies]
+# Optional: bindgen for generating bindings
+bindgen = { version = "0.69", optional = true }
+
+[features]
+# Generate bindings at build time (requires clang and iOS SDK)
+generate-bindings = ["bindgen"]
+
+# Link against actual iOS frameworks (only works on macOS/iOS)
+runtime = []
+
+# Individual framework features
+foundation = []
+uikit = []
+corefoundation = []
+coreanimation = []
+quartzcore = []
+security = []
+mach = ["default"]  # Mach APIs enabled by default
+
+default = ["mach"]
+
+[package.metadata.docs.rs]
+features = []
+targets = ["aarch64-apple-ios", "aarch64-apple-darwin"]
