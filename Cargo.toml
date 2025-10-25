@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["ellekit-sys", "ios-sys"]
+members = ["ellekit-sys"]
 
 [package]
 name = "ellekit"
@@ -12,6 +12,10 @@ description = "Safe Rust bindings to ElleKit, a modern iOS/macOS hooking framewo
 repository = "https://github.com/coleleavitt/ellekit-rs"
 keywords = ["ios", "macos", "hooking", "jailbreak", "tweak"]
 categories = ["api-bindings", "os::macos-apis"]
+
+[lib]
+# Support building as cdylib for iOS tweaks
+crate-type = ["rlib", "cdylib"]
 
 [dependencies]
 ellekit-sys = { path = "ellekit-sys", version = "0.1.0" }
@@ -25,6 +29,8 @@ libc = "0.2"
 default = []
 # Feature flag for tests that require actual hooking capability
 jailbroken = []
+# Link against ElleKit runtime library (for building actual tweaks)
+runtime = ["ellekit-sys/runtime"]
 
 [package.metadata.docs.rs]
 # Documentation configuration

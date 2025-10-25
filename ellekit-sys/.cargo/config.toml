@@ -1,0 +1,18 @@
+# Default build target for ellekit-sys
+# This crate can only be built for Apple platforms (iOS/macOS)
+
+[build]
+target = "aarch64-apple-ios"
+
+# Additional iOS targets
+[target.aarch64-apple-ios]
+rustflags = ["-C", "link-arg=-fapplication-extension"]
+
+[target.arm64e-apple-ios]
+rustflags = ["-C", "link-arg=-fapplication-extension"]
+
+[target.aarch64-apple-darwin]
+# macOS target (for testing on Mac)
+
+[target.x86_64-apple-darwin]
+# Intel macOS target (for testing on Mac)

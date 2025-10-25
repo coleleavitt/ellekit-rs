@@ -31,7 +31,7 @@
 #![allow(dead_code)]
 #![allow(improper_ctypes)]
 
-use core::ffi::{c_char, c_int, c_uint, c_void};
+use core::ffi::{c_char, c_int, c_void};
 
 // ============================================================================
 // MARK: - Re-export System Types from ios-sys
@@ -46,6 +46,10 @@ pub use ios_sys::mach::{
 
 // Objective-C types
 pub use ios_sys::objc::{Class as objc_class, IMP, SEL as objc_selector};
+
+// Re-export commonly used system functions that are in ios-sys
+// Note: Mach VM functions (mach_vm_allocate, mach_vm_deallocate, etc.) are declared
+// in ios-sys::mach but ElleKit may provide custom implementations, so we keep our own declarations
 
 // ============================================================================
 // MARK: - Libhooker Types (ElleKit-specific)
@@ -135,7 +139,7 @@ impl Default for LHMemoryPatch {
 }
 
 // ============================================================================
-// MARK: - Code Signing Types
+// MARK: - Code Signing Types and Constants (from xnu-sys)
 // ============================================================================
 
 #[repr(C)]
@@ -145,39 +149,29 @@ pub struct CSRange {
     pub length: u64,
 }
 
-// Code signing constants
-pub const CS_VALID: u32 = 0x0000001;
-pub const CS_ADHOC: u32 = 0x0000002;
-pub const CS_GET_TASK_ALLOW: u32 = 0x0000004;
-pub const CS_INSTALLER: u32 = 0x0000008;
-pub const CS_INVALID_ALLOWED: u32 = 0x00000020;
-pub const CS_HARD: u32 = 0x0000100;
-pub const CS_KILL: u32 = 0x0000200;
-pub const CS_CHECK_EXPIRATION: u32 = 0x0000400;
-pub const CS_RESTRICT: u32 = 0x0000800;
-pub const CS_ENFORCEMENT: u32 = 0x0001000;
-pub const CS_REQUIRE_LV: u32 = 0x0002000;
-pub const CS_ENTITLEMENTS_VALIDATED: u32 = 0x0004000;
-pub const CS_ALLOWED_MACHO: u32 = 0x00ffffe;
-pub const CS_EXEC_SET_HARD: u32 = 0x0100000;
-pub const CS_EXEC_SET_KILL: u32 = 0x0200000;
-pub const CS_EXEC_SET_ENFORCEMENT: u32 = 0x0400000;
-pub const CS_EXEC_SET_INSTALLER: u32 = 0x0800000;
-pub const CS_KILLED: u32 = 0x1000000;
-pub const CS_DYLD_PLATFORM: u32 = 0x2000000;
-pub const CS_PLATFORM_BINARY: u32 = 0x4000000;
-pub const CS_PLATFORM_PATH: u32 = 0x8000000;
-pub const CS_DEBUGGED: u32 = 0x10000000;
-pub const CS_SIGNED: u32 = 0x20000000;
-pub const CS_DEV_CODE: u32 = 0x40000000;
+// Re-export code signing constants and functions from xnu-sys
+// These are private XNU APIs extracted from osfmk/kern/cs_blobs.h and bsd/sys/codesign.h
+pub use xnu_sys::{
+    // Code signing status flags
+    CS_VALID, CS_ADHOC, CS_GET_TASK_ALLOW, CS_INSTALLER, CS_FORCED_LV,
+    CS_INVALID_ALLOWED, CS_HARD, CS_KILL, CS_CHECK_EXPIRATION, CS_RESTRICT,
+    CS_ENFORCEMENT, CS_REQUIRE_LV, CS_ENTITLEMENTS_VALIDATED, CS_NVRAM_UNRESTRICTED,
+    CS_RUNTIME, CS_LINKER_SIGNED, CS_ALLOWED_MACHO,
+    CS_EXEC_SET_HARD, CS_EXEC_SET_KILL, CS_EXEC_SET_ENFORCEMENT, CS_EXEC_INHERIT_SIP,
+    CS_KILLED, CS_NO_UNTRUSTED_HELPERS, CS_DYLD_PLATFORM,
+    CS_PLATFORM_BINARY, CS_PLATFORM_PATH, CS_DEBUGGED, CS_SIGNED, CS_DEV_CODE,
+    CS_DATAVAULT_CONTROLLER,
 
-// csops operations
-pub const CS_OPS_STATUS: c_uint = 0;
-pub const CS_OPS_MARKINVALID: c_uint = 1;
-pub const CS_OPS_MARKHARD: c_uint = 2;
-pub const CS_OPS_MARKKILL: c_uint = 3;
-pub const CS_OPS_PIDPATH: c_uint = 4;
-pub const CS_OPS_CDHASH: c_uint = 5;
+    // Code signing operations
+    CS_OPS_STATUS, CS_OPS_MARKINVALID, CS_OPS_MARKHARD, CS_OPS_MARKKILL,
+    CS_OPS_CDHASH, CS_OPS_PIDOFFSET, CS_OPS_ENTITLEMENTS_BLOB, CS_OPS_MARKRESTRICT,
+    CS_OPS_SET_STATUS, CS_OPS_BLOB, CS_OPS_IDENTITY, CS_OPS_CLEARINSTALLER,
+    CS_OPS_CLEARPLATFORM, CS_OPS_TEAMID, CS_OPS_CLEAR_LV, CS_OPS_DER_ENTITLEMENTS_BLOB,
+    CS_OPS_VALIDATION_CATEGORY,
+
+    // Code signing functions
+    csops, csops_audittoken,
+};
 
 // ============================================================================
 // MARK: - Mach-O Types
@@ -279,6 +273,15 @@ extern "C" {
     /// Precision hook - single instruction hook (ElleKit native)
     pub fn EKPrecisionHook(target: *mut c_void, replacement: *mut c_void) -> *mut c_void;
 
+    /// JIT-less hook (ElleKit native)
+    pub fn EKJITLessHook(target: *mut c_void, replacement: *mut c_void) -> *mut c_void;
+
+    /// Add hook to registry (ElleKit native)
+    pub fn EKAddHookToRegistry(hook: *mut c_void);
+
+    /// Launch exception handler (ElleKit native)
+    pub fn EKLaunchExceptionHandler();
+
     // ========================================================================
     // PAC (Pointer Authentication) Functions
     // ========================================================================
@@ -370,9 +373,7 @@ extern "C" {
     // ========================================================================
     // Code Signing
     // ========================================================================
-
-    /// Perform code signing operations
-    pub fn csops(pid: c_int, ops: c_uint, useraddr: *mut c_void, usersize: usize) -> c_int;
+    // Note: csops and csops_audittoken are now re-exported from xnu-sys
 
     // ========================================================================
     // Utilities
@@ -386,6 +387,15 @@ extern "C" {
 
     /// Check shared region
     pub fn shared_region_check(address: *mut u64) -> c_int;
+
+    /// Hook sandbox check (ElleKit internal)
+    pub fn hook_sandbox_check();
+
+    /// Original function pointer 1 (ElleKit internal)
+    pub static orig1: *mut c_void;
+
+    /// Test weird function (ElleKit internal/testing)
+    pub fn test_weirdfunc();
 }
 
 #[cfg(test)]

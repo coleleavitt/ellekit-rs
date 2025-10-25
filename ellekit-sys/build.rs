@@ -1,15 +1,25 @@
 fn main() {
-    println!("cargo:rerun-if-changed=frameworks.rs");
+    println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-changed=src/lib.rs");
+    println!("cargo:rerun-if-changed=../submodules/ellekit-tbd/libellekit.tbd");
 
     // Link to ElleKit library ONLY if 'runtime' feature is enabled
     #[cfg(feature = "runtime")]
     {
-        println!("cargo:rustc-link-lib=dylib=ellekit");
+        let target = std::env::var("TARGET").unwrap();
 
-        // Search for the library in common locations
-        if cfg!(target_os = "ios") {
-            println!("cargo:rustc-link-search=/usr/lib");
-        } else if cfg!(target_os = "macos") {
+        if target.contains("ios") {
+            // For iOS builds, link against the TBD stub from device dylib
+            let manifest_dir = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+            let tbd_dir = format!("{}/../submodules/ellekit-tbd", manifest_dir);
+
+            println!("cargo:rustc-link-search={}", tbd_dir);
+            println!("cargo:rustc-link-lib=dylib=ellekit");
+
+            // Don't link libc/libm - they cause issues with cross-compilation
+            println!("cargo:rustc-link-arg=-nostdlib++");
+        } else if target.contains("macos") {
+            println!("cargo:rustc-link-lib=dylib=ellekit");
             println!("cargo:rustc-link-search=/usr/local/lib");
             println!("cargo:rustc-link-search=/opt/ellekit/lib");
         }

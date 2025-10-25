@@ -1,3 +1,7 @@
+# Default build target for the entire workspace
+[build]
+target = "aarch64-apple-ios"
+
 [target.aarch64-apple-ios]
 # Use LLVM's ld64 linker instead of system ld (which doesn't understand Mach-O)
 linker = "clang"
@@ -6,11 +10,11 @@ rustflags = [
     "-C", "link-arg=-fuse-ld=/usr/lib/llvm/20/bin/ld64.lld",
     # Point to iOS SDK
     "-C", "link-arg=-isysroot/home/cole/RustProjects/active/ellekit-rs/submodules/sdks/iPhoneOS16.5.sdk",
-    # Target iOS with platform version
+    # Target iOS with platform version (iOS 16.4.1 device)
     "-C", "link-arg=-target",
-    "-C", "link-arg=arm64-apple-ios14.0",
+    "-C", "link-arg=arm64-apple-ios16.0",
     # Platform version for ld64.lld
-    "-C", "link-arg=-Wl,-platform_version,ios,14.0,16.5",
+    "-C", "link-arg=-Wl,-platform_version,ios,16.0,16.5",
     # Architecture
     "-C", "link-arg=-arch",
     "-C", "link-arg=arm64",

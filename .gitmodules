@@ -1,6 +1,6 @@
 [submodule "submodules/ellekit"]
 	path = submodules/ellekit
 	url = https://github.com/evelyneee/ellekit.git
-[submodule "submodules/sdks"]
-	path = submodules/sdks
-	url = https://github.com/theos/sdks.git
+[submodule "xnu-sys/submodules/xnu"]
+	path = xnu-sys/submodules/xnu
+	url = https://github.com/apple-oss-distributions/xnu.git

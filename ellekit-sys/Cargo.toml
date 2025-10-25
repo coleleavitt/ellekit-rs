@@ -10,9 +10,16 @@ keywords = ["ios", "macos", "hooking", "jailbreak", "ffi"]
 categories = ["external-ffi-bindings", "os::macos-apis"]
 links = "ellekit"
 
+[lib]
+# Support building as cdylib for iOS tweaks
+crate-type = ["rlib", "cdylib"]
+
 [dependencies]
 # Use ios-sys for iOS system types (Mach, Objective-C, etc.)
-ios-sys = { path = "../ios-sys", version = "0.1.0", default-features = false }
+ios-sys = { git = "https://github.com/coleleavitt/ios-sys.git", branch = "main" }
+
+# Use xnu-sys for XNU kernel APIs (including private APIs like code signing)
+xnu-sys = { path = "../../xnu-sys" }
 
 [features]
 # Link against the actual ElleKit library (only available on jailbroken iOS/macOS)

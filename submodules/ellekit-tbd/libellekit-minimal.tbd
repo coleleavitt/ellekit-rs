@@ -1,0 +1,54 @@
+--- !tapi-tbd
+tbd-version: 4
+targets: [arm64-ios, arm64e-ios]
+install-name: /usr/lib/libellekit.dylib
+current-version: 1.0
+compatibility-version: 1.0
+exports:
+  - targets: [arm64-ios, arm64e-ios]
+    symbols:
+      # Libhooker API
+      - _LBHookMessage
+      - _LHStrError
+      - _LHPatchMemory
+      - _LHExecMemory
+      - _LHHookFunctions
+      - _LHOpenImage
+      - _LHCloseImage
+      - _LHFindSymbols
+      # MobileSubstrate API
+      - _MSGetImageByName
+      - _MSCloseImage
+      - _MSFindSymbol
+      - _MSHookFunction
+      - _MSHookMessageEx
+      - _MSHookClassPair
+      - _MSHookIvar
+      - _MSHookMemory
+      # ElleKit Native API
+      - _EKEnableThreadSafety
+      - _EKHookFunction
+      - _EKPrecisionHook
+      - _EKJITLessHook
+      - _EKAddHookToRegistry
+      - _EKLaunchExceptionHandler
+      # PAC Functions
+      - _sign_pointer
+      - _strip_pointer
+      - _sign_pc
+      # Memory Management
+      - _sys_icache_invalidate
+      - _manual_memcpy
+      - _EKHookMemoryRaw
+      - _mach_vm_allocate
+      - _mach_vm_deallocate
+      - _mach_vm_protect
+      - _custom_mach_vm_protect
+      - _mach_vm_write
+      - _mach_vm_remap
+      # Code Signing
+      - _csops
+      # Utilities
+      - _assembly
+      - _dmb_sy
+      - _shared_region_check

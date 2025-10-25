@@ -1,0 +1,19 @@
+--- !tapi-tbd-v3
+archs:                 [ arm64, arm64e ]
+platform:              ios
+install-name:          /usr/lib/libellekit.dylib
+current-version:       1.0
+compatibility-version: 1.0
+exports:
+  - archs:              [ arm64, arm64e ]
+    symbols:            [ _custom_mach_vm_protect, _dmb_sy, _EKAddHookToRegistry,
+                          _EKEnableThreadSafety, _EKHookFunction, _EKJITLessHook,
+                          _EKLaunchExceptionHandler, _hook_sandbox_check,
+                          _LBHookMessage, _LHExecMemory, _LHFindSymbols,
+                          _LHHookFunctions, _LHOpenImage, _LHPatchMemory,
+                          _LHStrError, _manual_memcpy, _MSFindSymbol,
+                          _MSGetImageByName, _MSHookClassPair, _MSHookFunction,
+                          _MSHookIvar, _MSHookMemory, _MSHookMessageEx, _orig1,
+                          _shared_region_check, _sign_pc, _sign_pointer,
+                          _strip_pointer, _test_weirdfunc ]
+...
